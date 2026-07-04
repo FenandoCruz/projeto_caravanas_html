@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
+    <header id="home">
+        <!-- Navegação principal -->
+		<nav class="top-nav" aria-label="Menu principal">
+			<a href="cadastro.html">Cadastro</a>
+			<a href="login.html">Login</a>
+			<a href="minha_caravana.html">Minha caravana</a>
+		</nav>
         <!-- Imagem do cabeçalho -->
         <img src="img/onibus_com_templo.png" alt="Ônibus e templo" class="header-img" />
         <!-- Texto sobre a imagem do cabeçalho -->
@@ -89,5 +95,19 @@
 			</video>
 		</section>
 	</main>
+
+
+	<!-- Navegação flutuante substituindo o botão anterior -->
+	<nav id="floating-nav" class="floating-nav" aria-label="Menu flutuante">
+		<a href="index.html" class="floating-link">Início</a>
+		<a href="cadastro.html" class="floating-link">Cadastro</a>
+		<a href="login.html" class="floating-link">Login</a>
+		<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
+	</nav>
+
+	<!-- Rodapé do site -->
+	<footer class="site-footer">
+		<p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
+	</footer>
 </body>
 </html>
