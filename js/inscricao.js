@@ -13,6 +13,8 @@ document.addEventListener('partials:prontos', () => {
 	const etapaSucesso = document.getElementById('etapaSucesso');
 	const modalNome = document.getElementById('modalNome');
 	const modalNascimento = document.getElementById('modalNascimento');
+	const modalIdade = document.getElementById('modalIdade');
+	const modalTelefone = document.getElementById('modalTelefone');
 	const inputDocumento = document.getElementById('inputDocumento');
 	const modalErro = document.getElementById('modalErro');
 
@@ -83,17 +85,37 @@ document.addEventListener('partials:prontos', () => {
 		buscaMensagem.hidden = true;
 		results.forEach(pessoa => {
 			const li = document.createElement('li');
-			li.textContent = pessoa.nome;
+
+			const avatar = document.createElement('span');
+			avatar.className = 'resultado-avatar';
+			avatar.textContent = pessoa.nome.trim().charAt(0).toUpperCase();
+
+			const nome = document.createElement('span');
+			nome.textContent = pessoa.nome;
+
+			li.appendChild(avatar);
+			li.appendChild(nome);
 			li.addEventListener('click', () => abrirConfirmacao(pessoa));
 			listaResultados.appendChild(li);
 		});
 		listaResultados.hidden = false;
 	}
 
+	function preencherInfo_(elemento, rotulo, valor) {
+		if (valor) {
+			elemento.hidden = false;
+			elemento.textContent = `${rotulo}: ${valor}`;
+		} else {
+			elemento.hidden = true;
+		}
+	}
+
 	function abrirConfirmacao(pessoa) {
 		pessoaSelecionada = pessoa;
 		modalNome.textContent = pessoa.nome;
-		modalNascimento.textContent = pessoa.dataNascimento ? `Nascimento: ${pessoa.dataNascimento}` : '';
+		preencherInfo_(modalNascimento, 'Nascimento', pessoa.dataNascimento);
+		preencherInfo_(modalIdade, 'Idade', pessoa.idade ? `${pessoa.idade} anos` : '');
+		preencherInfo_(modalTelefone, 'Telefone', pessoa.telefone);
 
 		etapaBusca.hidden = true;
 		etapaConfirmar.hidden = false;

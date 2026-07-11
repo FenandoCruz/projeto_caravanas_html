@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/modais.css" />
     <link rel="stylesheet" href="css/calendario.css" />
+    <link rel="stylesheet" href="css/video.css" />
     <link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
@@ -96,11 +97,20 @@
 		<section class="faq">
 			<h2>Perguntas Frequentes</h2>
 			<!-- Pergunta 1 -->
-			<details><summary>Posso levar crianças?</summary>Sim, desde que tenha um adulto responsável para cuidar dela</details>
+			<details>
+				<summary>Posso levar crianças?</summary>
+				<p>Sim, desde que tenha um adulto responsável para cuidar dela</p>
+			</details>
 			<!-- Pergunta 2 -->
-			<details><summary>E se minha recomendação estiver vencida?</summary>É necessário renová-la antes da data de saída da caravana, se esse for o seu caso recomenda-se entrar em contato com o secretário da sua Ala e solicitar uma entrevista com um membro do bispado o mas rápido possível</details>
+			<details>
+				<summary>E se minha recomendação estiver vencida?</summary>
+				<p>É necessário renová-la antes da data de saída da caravana, se esse for o seu caso recomenda-se entrar em contato com o secretário da sua Ala e solicitar uma entrevista com um membro do bispado o mas rápido possível</p>
+			</details>
 			<!-- Pergunta 3 -->
-			<details><summary>Posso mudar a data da minha ida na caravana?</summary>Sim, desde que haja vagas disponíveis e seja feito dentro do prazo estabelecido que é de 15 dias antes da data de saída</details>
+			<details>
+				<summary>Posso mudar a data da minha ida na caravana?</summary>
+				<p>Sim, desde que haja vagas disponíveis e seja feito dentro do prazo estabelecido que é de 15 dias antes da data de saída</p>
+			</details>
 		</section>
 		<!-- Seção de inspiração -->
 		<section class="inspiração">
@@ -109,12 +119,15 @@
 		<!-- Seção de vídeo -->
 		<section class="video">
 			<h2>Assista ao vídeo</h2>
-			<!-- Vídeo de apresentação -->
-			<video id="videoCaravanas" controls width="600" poster="img/poster-reservas.png">
-				<source src="videos/video-reservas.mp4.mp4" type="video/mp4">
-				Seu navegador não suporta vídeo HTML5.
-			</video>
+			<!-- Miniatura clicável que abre o vídeo num modal -->
+			<button type="button" id="btnAbrirVideo" class="video-thumb" aria-label="Assistir ao vídeo">
+				<img src="img/poster-reservas.png" alt="Prévia do vídeo" />
+				<span class="video-play-icon" aria-hidden="true">▶</span>
+			</button>
 		</section>
+
+		<!-- Modal do vídeo, carregado de partials/modal-video.html -->
+		<div data-partial="partials/modal-video.html"></div>
 	</main>
 
 	<!-- Botão flutuante de WhatsApp -->

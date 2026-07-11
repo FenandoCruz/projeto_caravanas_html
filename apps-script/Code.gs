@@ -15,7 +15,7 @@ function doGet(e) {
   const matches = membros
     .filter(m => normalize_(m.nome).includes(norm))
     .slice(0, MAX_RESULTS)
-    .map(m => ({ nome: m.nome, dataNascimento: m.dataNascimento }));
+    .map(m => ({ nome: m.nome, dataNascimento: m.dataNascimento, idade: m.idade, telefone: m.telefone }));
 
   return jsonResponse({ ok: true, results: matches });
 }
@@ -64,9 +64,26 @@ function getMembros_() {
   const [header, ...rows] = values;
   const idxNome = header.indexOf('Nome completo');
   const idxData = header.indexOf('Data de Nascimento');
+  const idxIdade = header.indexOf('Idade');
+  const idxTelefone = header.indexOf('Telefone');
   return rows
     .filter(r => r[idxNome])
-    .map(r => ({ nome: String(r[idxNome]), dataNascimento: idxData >= 0 ? String(r[idxData]) : '' }));
+    .map(r => ({
+      nome: String(r[idxNome]),
+      dataNascimento: idxData >= 0 ? formatarData_(r[idxData]) : '',
+      idade: idxIdade >= 0 && r[idxIdade] ? String(r[idxIdade]) : '',
+      telefone: idxTelefone >= 0 && r[idxTelefone] ? String(r[idxTelefone]) : ''
+    }));
+}
+
+// A planilha converte datas para o tipo Date automaticamente na importação do CSV;
+// aqui formatamos por extenso em português em vez do texto bruto do JavaScript.
+function formatarData_(valor) {
+  if (!valor) return '';
+  if (Object.prototype.toString.call(valor) === '[object Date]') {
+    return valor.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  return String(valor);
 }
 
 function normalize_(s) {
