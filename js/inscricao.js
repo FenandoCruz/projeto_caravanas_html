@@ -41,6 +41,12 @@ document.addEventListener('partials:prontos', () => {
 		inputNome.focus();
 	});
 
+	// Máscara do documento: só números, até 11 dígitos (tamanho do registro da CNH,
+	// o maior entre os documentos aceitos; RG e outros cabem dentro desse limite)
+	inputDocumento?.addEventListener('input', () => {
+		inputDocumento.value = inputDocumento.value.replace(/\D/g, '').slice(0, 11);
+	});
+
 	inputNome?.addEventListener('input', () => {
 		clearTimeout(debounceTimer);
 		const termo = inputNome.value.trim();
