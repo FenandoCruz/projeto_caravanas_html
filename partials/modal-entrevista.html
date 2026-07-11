@@ -1,0 +1,46 @@
+<!-- Modal de agendamento de entrevista de recomendação -->
+<div id="modalEntrevista" class="modal-overlay" hidden>
+	<div class="modal">
+		<button id="btnFecharModalEntrevistaX" class="modal-fechar" aria-label="Fechar">&times;</button>
+
+		<div id="etapaDataEntrevista">
+			<h3>Qual o melhor dia para você?</h3>
+			<p class="modal-nascimento">Entrevistas de terça a sexta-feira, sempre após as 19h.</p>
+			<div class="calendario" id="calendarioEntrevista">
+				<div class="calendario-cabecalho">
+					<button type="button" id="calMesAnterior" class="cal-nav" aria-label="Mês anterior">‹</button>
+					<span id="calMesAno"></span>
+					<button type="button" id="calProximoMes" class="cal-nav" aria-label="Próximo mês">›</button>
+				</div>
+				<div class="calendario-dias-semana">
+					<span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+				</div>
+				<div class="calendario-grade" id="calGrade"></div>
+			</div>
+			<p id="erroDataEntrevista" class="modal-erro" hidden></p>
+			<button id="btnProximoData">Próximo</button>
+		</div>
+
+		<div id="etapaHorarioEntrevista" hidden>
+			<h3>Qual o melhor horário?</h3>
+			<select id="selectHorarioEntrevista">
+				<option value="19:00">19:00</option>
+				<option value="19:30">19:30</option>
+				<option value="20:00">20:00</option>
+				<option value="20:30">20:30</option>
+				<option value="21:00">21:00</option>
+			</select>
+			<div class="modal-botoes">
+				<button id="btnProximoHorario">Próximo</button>
+			</div>
+		</div>
+
+		<div id="etapaConfirmarEntrevista" hidden>
+			<h3>Confirmar agendamento</h3>
+			<p id="previewMensagemEntrevista" class="modal-nome"></p>
+			<div class="modal-botoes">
+				<button id="btnEnviarEntrevistaWhatsapp">Enviar no WhatsApp</button>
+			</div>
+		</div>
+	</div>
+</div>

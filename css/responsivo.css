@@ -1,0 +1,58 @@
+/* Responsividade para tablets e celulares */
+@media (max-width: 768px) {
+	main {
+		padding: 1rem;
+	}
+	.header-img {
+		max-height: 320px;
+	}
+	.header-text {
+		padding: 1rem;
+	}
+	.header-text h1 {
+		font-size: 2rem;
+		padding: 1rem 1.25rem;
+	}
+	.header-text .subtitle {
+		font-size: 1.1rem;
+		padding: 0.5rem 1.25rem;
+	}
+	.grid {
+		gap: 1rem;
+	}
+	.card {
+		min-width: 100%;
+		padding: 1.25rem;
+	}
+	button {
+		width: 100%;
+		padding: 0.85rem 1rem;
+	}
+	.modal-botoes {
+		flex-direction: column;
+	}
+	.modal-botoes button {
+		width: 100%;
+	}
+	.modal {
+		padding: 1.5rem;
+	}
+	.busca-nome {
+		max-width: 100%;
+	}
+	.whatsapp-flutuante {
+		right: 1rem;
+		bottom: 1rem;
+		width: 50px;
+		height: 50px;
+	}
+}
+
+@media (max-width: 480px) {
+	.header-text h1 {
+		font-size: 1.5rem;
+	}
+	.header-text .subtitle {
+		font-size: 0.95rem;
+	}
+}

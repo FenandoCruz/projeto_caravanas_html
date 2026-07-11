@@ -1,0 +1,89 @@
+/* Calendário customizado usado no agendamento de entrevista de recomendação */
+.calendario {
+	margin: 0.75rem 0 1rem;
+	background: #F7FAFD;
+	border: 1px solid #e1e8f0;
+	border-radius: 8px;
+	padding: 0.85rem;
+}
+.calendario-cabecalho {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 0.6rem;
+}
+.calendario-cabecalho span {
+	font-weight: bold;
+	color: #2A4D8F;
+	text-transform: capitalize;
+}
+.cal-nav {
+	background: #E6F0FA;
+	color: #2A4D8F;
+	border: none;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	font-size: 1.1rem;
+	padding: 0;
+	margin: 0;
+	line-height: 1;
+}
+.cal-nav:hover {
+	background: #2A4D8F;
+	color: #fff;
+}
+.cal-nav:disabled {
+	opacity: 0.3;
+	cursor: not-allowed;
+	background: #E6F0FA;
+	color: #2A4D8F;
+}
+.calendario-dias-semana {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	text-align: center;
+	font-size: 0.75rem;
+	color: #8a94a3;
+	margin-bottom: 0.35rem;
+}
+.calendario-grade {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 4px;
+}
+.cal-dia {
+	aspect-ratio: 1;
+	width: 100%;
+	border: none;
+	background: #ffffff;
+	border-radius: 6px;
+	font-size: 0.85rem;
+	color: #333;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.cal-dia:hover:not(:disabled) {
+	background-color: #E6F0FA;
+	color: #2A4D8F;
+}
+.cal-vazio {
+	background: transparent;
+	cursor: default;
+}
+.cal-dia-desabilitado {
+	background: transparent;
+	color: #c9d0da;
+	cursor: not-allowed;
+}
+.cal-dia-hoje {
+	box-shadow: inset 0 0 0 2px #2A4D8F;
+}
+.cal-dia-selecionado {
+	background-color: #FF9800 !important;
+	color: #fff !important;
+	font-weight: bold;
+}

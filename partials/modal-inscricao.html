@@ -1,0 +1,38 @@
+<!-- Modal de inscrição (busca -> confirmação -> documento -> sucesso) -->
+<div id="modalConfirmacao" class="modal-overlay" hidden>
+	<div class="modal">
+		<button id="btnFecharModalX" class="modal-fechar" aria-label="Fechar">&times;</button>
+
+		<div id="etapaBusca">
+			<h3>Digite seu nome completo</h3>
+			<div class="busca-nome">
+				<input type="text" id="inputNome" placeholder="Digite seu nome..." autocomplete="off" />
+				<ul id="listaResultados" class="resultados-busca" hidden></ul>
+			</div>
+			<p id="buscaMensagem" class="busca-mensagem" hidden></p>
+		</div>
+
+		<div id="etapaConfirmar" hidden>
+			<h3>É você?</h3>
+			<p id="modalNome" class="modal-nome"></p>
+			<p id="modalNascimento" class="modal-nascimento"></p>
+			<div class="modal-botoes">
+				<button id="btnConfirmarSim">Sim, sou eu</button>
+				<button id="btnConfirmarNao" class="btn-secundario">Não sou eu</button>
+			</div>
+		</div>
+
+		<div id="etapaDocumento" hidden>
+			<h3>Confirmar inscrição</h3>
+			<label for="inputDocumento">Número do documento (com foto)</label>
+			<input type="text" id="inputDocumento" placeholder="Ex: nº do RG ou CNH" />
+			<button id="btnEnviarInscricao">Enviar inscrição</button>
+			<p id="modalErro" class="modal-erro" hidden></p>
+		</div>
+
+		<div id="etapaSucesso" hidden>
+			<p class="modal-sucesso">✅ Inscrição confirmada com sucesso!</p>
+			<button id="btnFecharModal">Fechar</button>
+		</div>
+	</div>
+</div>

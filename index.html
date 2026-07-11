@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caravanas SUD ao Templo</title>
-	<!-- Estilo CSS -->
-    <link rel="stylesheet" href="style.css" />
+	<!-- Estilos -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/modais.css" />
+    <link rel="stylesheet" href="css/calendario.css" />
+    <link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
     <header>
@@ -17,7 +20,7 @@
             <p class="subtitle">Uma jornada de fé e serviços de amor</p>
         </div>
 	</header>
-	
+
 	<main>
 		<!-- Seção de requisitos -->
 		<section class="grid">
@@ -65,6 +68,15 @@
 				</ul>
 			</div>
 		</section>
+		<!-- Seção de renovação de recomendação -->
+		<section class="recomendacao">
+			<div class="card">
+				<h2>Precisa renovar sua recomendação?</h2>
+				<p>Agende sua entrevista de renovação com o secretário.</p>
+				<button id="btnAgendarEntrevista">Agendar minha entrevista</button>
+			</div>
+		</section>
+
 		<!-- Seção de inscrição -->
 		<section class="inscricao">
 			<div class="card">
@@ -74,44 +86,11 @@
 			</div>
 		</section>
 
-		<!-- Modal de inscrição (busca -> confirmação -> documento -> sucesso) -->
-		<div id="modalConfirmacao" class="modal-overlay" hidden>
-			<div class="modal">
-				<button id="btnFecharModalX" class="modal-fechar" aria-label="Fechar">&times;</button>
+		<!-- Modal de inscrição, carregado de partials/modal-inscricao.html -->
+		<div data-partial="partials/modal-inscricao.html"></div>
 
-				<div id="etapaBusca">
-					<h3>Digite seu nome completo</h3>
-					<div class="busca-nome">
-						<input type="text" id="inputNome" placeholder="Digite seu nome..." autocomplete="off" />
-						<ul id="listaResultados" class="resultados-busca" hidden></ul>
-					</div>
-					<p id="buscaMensagem" class="busca-mensagem" hidden></p>
-				</div>
-
-				<div id="etapaConfirmar" hidden>
-					<h3>É você?</h3>
-					<p id="modalNome" class="modal-nome"></p>
-					<p id="modalNascimento" class="modal-nascimento"></p>
-					<div class="modal-botoes">
-						<button id="btnConfirmarSim">Sim, sou eu</button>
-						<button id="btnConfirmarNao" class="btn-secundario">Não sou eu</button>
-					</div>
-				</div>
-
-				<div id="etapaDocumento" hidden>
-					<h3>Confirmar inscrição</h3>
-					<label for="inputDocumento">Número do documento (com foto)</label>
-					<input type="text" id="inputDocumento" placeholder="Ex: nº do RG ou CNH" />
-					<button id="btnEnviarInscricao">Enviar inscrição</button>
-					<p id="modalErro" class="modal-erro" hidden></p>
-				</div>
-
-				<div id="etapaSucesso" hidden>
-					<p class="modal-sucesso">✅ Inscrição confirmada com sucesso!</p>
-					<button id="btnFecharModal">Fechar</button>
-				</div>
-			</div>
-		</div>
+		<!-- Modal de agendamento de entrevista, carregado de partials/modal-entrevista.html -->
+		<div data-partial="partials/modal-entrevista.html"></div>
 
 		<!-- Seção de perguntas frequentes -->
 		<section class="faq">
@@ -145,35 +124,15 @@
 		</svg>
 	</a>
 
-	<!-- Modal: sobre o que a pessoa tem dúvidas -->
-	<div id="modalDuvidas" class="modal-overlay" hidden>
-		<div class="modal">
-			<button id="btnFecharModalDuvidasX" class="modal-fechar" aria-label="Fechar">&times;</button>
+	<!-- Modal de dúvidas, carregado de partials/modal-duvidas.html -->
+	<div data-partial="partials/modal-duvidas.html"></div>
 
-			<div id="etapaAssunto">
-				<h3>Sobre o que você tem dúvidas?</h3>
-				<ul class="lista-assuntos">
-					<li data-assunto="Requisitos para participar">Requisitos para participar</li>
-					<li data-assunto="Custos e pagamento">Custos e pagamento</li>
-					<li data-assunto="Reservas de Ordenanças">Reservas de Ordenanças</li>
-					<li data-assunto="Horários e embarque">Horários e embarque</li>
-					<li data-assunto="Inscrição na caravana">Inscrição na caravana</li>
-					<li data-assunto="Outro assunto">Outro assunto</li>
-				</ul>
-			</div>
-
-			<div id="etapaConfirmarDuvida" hidden>
-				<h3>Confirmar mensagem</h3>
-				<p id="previewMensagemDuvida" class="modal-nome"></p>
-				<div class="modal-botoes">
-					<button id="btnEnviarDuvidaWhatsapp">Enviar no WhatsApp</button>
-					<button id="btnVoltarAssunto" class="btn-secundario">Voltar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Script principal -->
-	<script src="script.js"></script>
+	<!-- Scripts (nesta ordem: config primeiro, partials carregam os modais, depois cada funcionalidade) -->
+	<script src="js/config.js" defer></script>
+	<script src="js/partials.js" defer></script>
+	<script src="js/video.js" defer></script>
+	<script src="js/inscricao.js" defer></script>
+	<script src="js/duvidas.js" defer></script>
+	<script src="js/entrevista.js" defer></script>
 </body>
 </html>

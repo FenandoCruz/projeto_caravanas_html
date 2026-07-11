@@ -1,0 +1,191 @@
+/* Estilos comuns aos 3 modais (inscrição, dúvidas e agendamento de entrevista) */
+
+/* Campo de busca por nome (modal de inscrição) */
+.busca-nome {
+	position: relative;
+	max-width: 480px;
+}
+.busca-nome input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.resultados-busca {
+	list-style: none;
+	margin: 0.25rem 0 0;
+	padding: 0;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	max-height: 260px;
+	overflow-y: auto;
+	z-index: 10;
+}
+.resultados-busca li {
+	padding: 0.65rem 1rem;
+	cursor: pointer;
+	border-bottom: 1px solid #f0f0f0;
+}
+.resultados-busca li:last-child {
+	border-bottom: none;
+}
+.resultados-busca li:hover {
+	background-color: #E6F0FA;
+}
+.busca-mensagem {
+	margin-top: 0.5rem;
+	color: #555;
+}
+
+/* Estrutura geral do modal */
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100;
+	padding: 1rem;
+}
+/* [hidden] precisa vencer o display:flex acima, senão o modal aparece mesmo fechado */
+.modal-overlay[hidden] {
+	display: none;
+}
+.modal {
+	background: #fff;
+	border-radius: 10px;
+	padding: 2rem;
+	max-width: 420px;
+	width: 100%;
+	position: relative;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.modal h3 {
+	color: #2A4D8F;
+	margin-top: 0;
+}
+.modal-nome {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #2A4D8F;
+}
+.modal-nascimento {
+	color: #555;
+}
+.modal-botoes {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+.btn-secundario {
+	background-color: #e2e6ea;
+	color: #333;
+}
+.btn-secundario:hover {
+	background-color: #d3d8dd;
+}
+.modal-fechar {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #E6F0FA;
+	color: #2A4D8F;
+	font-size: 1.3rem;
+	padding: 0;
+	margin: 0;
+	line-height: 1;
+	border-radius: 50%;
+}
+.modal-fechar:hover {
+	background: #2A4D8F;
+	color: #fff;
+}
+
+/* Campos de texto dentro do modal (ex: número do documento) */
+#etapaDocumento input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.65rem 1rem;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 0.5rem 0 1rem;
+}
+
+/* Seletores (dropdown) dentro do modal, ex: horário da entrevista */
+.modal select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.65rem 2.25rem 0.65rem 1rem;
+	font-size: 1rem;
+	font-family: inherit;
+	color: #333;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 0.5rem 0 1rem;
+	background-color: #fff;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232A4D8F'%3E%3Cpath d='M5.25 7.5L10 12.25L14.75 7.5H5.25Z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.85rem center;
+	background-size: 14px;
+	cursor: pointer;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.modal select:hover {
+	border-color: #2A4D8F;
+}
+.modal select:focus {
+	outline: none;
+	border-color: #2A4D8F;
+	box-shadow: 0 0 0 3px rgba(42,77,143,0.15);
+}
+
+/* Mensagens de erro e sucesso */
+.modal-erro {
+	color: #c0392b;
+	background-color: #fdecea;
+	border: 1px solid #f5c6c0;
+	border-radius: 5px;
+	padding: 0.65rem 0.9rem;
+	font-size: 0.9rem;
+}
+.modal-sucesso {
+	font-size: 1.1rem;
+}
+
+/* Lista de assuntos (modal de dúvidas) */
+.lista-assuntos {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.lista-assuntos li {
+	padding: 0.75rem 1rem;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 0.6rem;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.lista-assuntos li:hover {
+	background-color: #E6F0FA;
+	border-color: #2A4D8F;
+	color: #2A4D8F;
+}
