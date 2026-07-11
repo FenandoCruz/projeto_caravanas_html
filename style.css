@@ -274,6 +274,24 @@ blockquote {
 	font-size: 1.1rem;
 }
 
+/* Estilos para o modal de dúvidas */
+.lista-assuntos {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.lista-assuntos li {
+	padding: 0.75rem 1rem;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 0.6rem;
+	cursor: pointer;
+}
+.lista-assuntos li:hover {
+	background-color: #E6F0FA;
+	border-color: #2A4D8F;
+}
+
 /* Responsividade para tablets e celulares */
 @media (max-width: 768px) {
 	main {
