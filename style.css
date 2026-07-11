@@ -1,4 +1,7 @@
 /* Estilos para a página de Caravanas SUD ao Templo */
+*, *::before, *::after {
+	box-sizing: border-box;
+}
 body {
 	font-family: 'Open Sans', sans-serif;
 	background-color: #E6F0FA;
@@ -125,4 +128,207 @@ blockquote {
 	width: 100%;
 	max-width: 400px;
 	border-radius: 8px;
+}
+.video video {
+	width: 100%;
+	max-width: 600px;
+	height: auto;
+	border-radius: 8px;
+}
+
+/* Botão flutuante de WhatsApp */
+.whatsapp-flutuante {
+	position: fixed;
+	right: 1.25rem;
+	bottom: 1.25rem;
+	width: 56px;
+	height: 56px;
+	background-color: #25D366;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+	z-index: 200;
+	text-decoration: none;
+}
+.whatsapp-flutuante:hover {
+	background-color: #1ebe57;
+}
+
+/* Estilos para a seção de inscrição */
+.inscricao {
+	margin-bottom: 2rem;
+}
+.busca-nome {
+	position: relative;
+	max-width: 480px;
+}
+.busca-nome input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.resultados-busca {
+	list-style: none;
+	margin: 0.25rem 0 0;
+	padding: 0;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	max-height: 260px;
+	overflow-y: auto;
+	z-index: 10;
+}
+.resultados-busca li {
+	padding: 0.65rem 1rem;
+	cursor: pointer;
+	border-bottom: 1px solid #f0f0f0;
+}
+.resultados-busca li:last-child {
+	border-bottom: none;
+}
+.resultados-busca li:hover {
+	background-color: #E6F0FA;
+}
+.busca-mensagem {
+	margin-top: 0.5rem;
+	color: #555;
+}
+
+/* Estilos para o modal de confirmação */
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100;
+	padding: 1rem;
+}
+/* [hidden] precisa vencer o display:flex acima, senão o modal aparece mesmo fechado */
+.modal-overlay[hidden] {
+	display: none;
+}
+.modal {
+	background: #fff;
+	border-radius: 8px;
+	padding: 2rem;
+	max-width: 420px;
+	width: 100%;
+	position: relative;
+}
+.modal h3 {
+	color: #2A4D8F;
+	margin-top: 0;
+}
+.modal-nome {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.modal-nascimento {
+	color: #555;
+}
+.modal-botoes {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+.btn-secundario {
+	background-color: #ccc;
+	color: #333;
+}
+.modal-fechar {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.75rem;
+	background: none;
+	color: #333;
+	font-size: 1.5rem;
+	padding: 0;
+	margin: 0;
+	line-height: 1;
+}
+#etapaDocumento input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.65rem 1rem;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin: 0.5rem 0 1rem;
+}
+.modal-erro {
+	color: #c0392b;
+}
+.modal-sucesso {
+	font-size: 1.1rem;
+}
+
+/* Responsividade para tablets e celulares */
+@media (max-width: 768px) {
+	main {
+		padding: 1rem;
+	}
+	.header-img {
+		max-height: 320px;
+	}
+	.header-text {
+		padding: 1rem;
+	}
+	.header-text h1 {
+		font-size: 2rem;
+		padding: 1rem 1.25rem;
+	}
+	.header-text .subtitle {
+		font-size: 1.1rem;
+		padding: 0.5rem 1.25rem;
+	}
+	.grid {
+		gap: 1rem;
+	}
+	.card {
+		min-width: 100%;
+		padding: 1.25rem;
+	}
+	button {
+		width: 100%;
+		padding: 0.85rem 1rem;
+	}
+	.modal-botoes {
+		flex-direction: column;
+	}
+	.modal-botoes button {
+		width: 100%;
+	}
+	.modal {
+		padding: 1.5rem;
+	}
+	.busca-nome {
+		max-width: 100%;
+	}
+	.whatsapp-flutuante {
+		right: 1rem;
+		bottom: 1rem;
+		width: 50px;
+		height: 50px;
+	}
+}
+
+@media (max-width: 480px) {
+	.header-text h1 {
+		font-size: 1.5rem;
+	}
+	.header-text .subtitle {
+		font-size: 0.95rem;
+	}
 }
