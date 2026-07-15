@@ -20,7 +20,6 @@ document.addEventListener('partials:prontos', () => {
 		modalDuvidas.hidden = true;
 	}
 
-	document.getElementById('btnWhatsappFlutuante')?.addEventListener('click', abrirModalDuvidas);
 	document.getElementById('linkDuvidasWhatsapp')?.addEventListener('click', abrirModalDuvidas);
 	document.getElementById('btnFecharModalDuvidasX')?.addEventListener('click', fecharModalDuvidas);
 
