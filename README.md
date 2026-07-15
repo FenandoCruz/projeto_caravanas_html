@@ -1,63 +1,59 @@
 # projeto_caravanas
 
-Projeto de site estático em HTML, CSS e JavaScript para divulgação de caravanas SUD até templos do Brasil.
+Site para divulgação e inscrição de caravanas SUD até templos do Brasil.
 
 ## Objetivo
 
-Este projeto tem como objetivo apresentar uma página inicial com informações sobre requisitos, custos, reservas de ordenanças e perguntas frequentes, além de oferecer navegação entre páginas de cadastro, login e detalhes de caravana.
+Apresentar a página inicial com requisitos, custos, reservas de ordenanças e perguntas frequentes, e permitir que os membros:
+
+- confirmem presença na caravana buscando o próprio nome numa lista privada (sem precisar criar conta),
+- agendem entrevista de renovação de recomendação,
+- tirem dúvidas direto pelo WhatsApp do líder.
+
+Também existem páginas iniciais de cadastro/login/"minha caravana" (`cadastro.html`, `login.html`, `minha_caravana.html`), ainda só como protótipo visual, sem backend próprio.
 
 ## Funcionalidades principais
 
 - Página principal (`index.html`) com:
-  - navegação superior para as seções do site
-  - descrição dos requisitos e custos da caravana
-  - seção de reservas com botão de ação
-  - perguntas frequentes e seção de inspiração
-  - vídeo de apresentação
-  - menu flutuante no canto inferior direito para acessar as páginas do site
-- Página de cadastro (`cadastro.html`)
-  - formulário básico de cadastro com campos para nome, e-mail e senha
-- Página de login (`login.html`)
-  - formulário de autenticação com e-mail e senha
-- Página `Minha caravana` (`minha_caravana.html`)
-  - informações sobre viagens para os templos do Rio de Janeiro e Belo Horizonte
+  - requisitos, custos, reservas de ordenanças, horários e perguntas frequentes
+  - **"Fazer minha inscrição"**: busca por nome (contra uma lista privada), confirmação em modal, e envio do número do documento
+  - **"Agendar minha entrevista"**: calendário próprio (só permite terça a sexta) + horário, e monta uma mensagem pronta pro WhatsApp do secretário
+  - botão flutuante de WhatsApp com modal de "sobre o que você tem dúvida"
+  - vídeo de apresentação num modal dedicado
+  - menu flutuante (canto inferior esquerdo) para as páginas de cadastro/login/minha caravana
+- `cadastro.html`, `login.html`, `minha_caravana.html` — protótipo visual (formulários sem função ainda)
+
+## Backend (Google Apps Script + Google Sheets)
+
+A busca de nomes e o envio da inscrição **não usam nenhum arquivo local** — os dados ficam numa planilha privada do Google Sheets, acessada através de um Google Apps Script publicado como Web App:
+
+- `apps-script/Code.gs` — código do Apps Script (busca por nome, grava inscrição, evita duplicidade, envia e-mail de notificação)
+- A URL do Apps Script publicado fica em `js/config.js` (`SCRIPT_URL`)
+
+Veja os comentários em `apps-script/Code.gs` para os nomes de aba esperados na planilha (`Membros` para a lista de busca, e a aba de respostas configurada em `RESPOSTAS_SHEET`).
 
 ## Estrutura de arquivos
 
-- `index.html` — página principal do site
-- `cadastro.html` — página de cadastro de usuários
-- `login.html` — página de login
-- `minha_caravana.html` — página de informações e agenda das caravanas
-- `style.css` — estilos comuns para todas as páginas
-- `script.js` — script JavaScript para comportamento de vídeo
-- `img/` — imagens usadas no site, incluindo capas e templos
-- `videos/` — vídeos de apresentação do projeto
+- `index.html` — página principal
+- `cadastro.html`, `login.html`, `minha_caravana.html` — páginas de protótipo
+- `css/` — estilos separados por responsabilidade (`base.css`, `nav.css`, `modais.css`, `calendario.css`, `video.css`, `responsivo.css`)
+- `js/` — scripts separados por funcionalidade (`config.js`, `partials.js`, `video.js`, `inscricao.js`, `duvidas.js`, `entrevista.js`)
+- `partials/` — pedaços de HTML dos modais, carregados em tempo de execução por `js/partials.js`
+- `apps-script/Code.gs` — backend (Google Apps Script)
+- `img/` — imagens do site
+- `videos/` — vídeo de apresentação
 
-## Como usar
+## Como usar (importante: precisa de um servidor local)
 
-1. Abra os arquivos `.html` no navegador.
-2. Navegue entre as páginas usando o menu flutuante no canto inferior direito.
-3. Use a página de cadastro para simular criação de conta.
-4. Use a página de login para simular autenticação.
+Os modais são carregados via `fetch()` (arquivos em `partials/`), então **abrir o `index.html` com duplo clique não funciona** — o navegador bloqueia esse tipo de carregamento em arquivos locais (`file://`).
 
-## Observações
-
-- O projeto é estático e não possui back-end ou persistência real de dados.
-- O formulário de cadastro e login é apenas para demonstração visual.
-- O botão de ação na página inicial abre o link de reservas em uma nova aba.
-
-## Configuração local
-
-1. Clone o repositório ou baixe os arquivos para sua máquina.
-2. Abra a pasta do projeto no seu editor de código preferido.
-3. Abra qualquer arquivo `.html` em um navegador para visualizar o site.
-4. Se quiser editar estilos ou comportamento, modifique `style.css` e `script.js`.
+1. Sirva a pasta do projeto com um servidor local, por exemplo a extensão **Live Server** do VS Code (botão direito no `index.html` → "Open with Live Server"), ou `npx serve`.
+2. Abra o endereço local gerado (ex: `http://127.0.0.1:5500`).
+3. Para testar a busca/inscrição de verdade, o `SCRIPT_URL` em `js/config.js` precisa apontar pra um Apps Script publicado (veja a seção Backend acima).
 
 ## Como contribuir
 
-- Faça um fork do repositório no GitHub.
 - Crie uma nova branch para sua mudança: `git checkout -b minha-melhorias`.
-- Faça as alterações desejadas em `index.html`, `style.css`, `script.js` ou outras páginas.
-- Teste as páginas abrindo os arquivos `.html` no navegador.
+- Teste localmente com um servidor (veja acima) antes de abrir PR.
 - Faça commit das alterações com mensagens claras.
 - Envie o branch para o repositório remoto e abra um pull request.

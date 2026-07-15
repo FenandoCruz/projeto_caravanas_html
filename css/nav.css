@@ -1,95 +1,6 @@
-/* Estilos para a página de Caravanas SUD ao Templo */
-body {
-	font-family: 'Open Sans', sans-serif;
-	background-color: #E6F0FA;
-	color: #333;
-	margin: 0;
-	padding: 0;
-}
-/* Estilos para o cabeçalho */
-header {
-	position: relative;
-	text-align: center;
-}
-/* Estilos para a imagem do cabeçalho */
-.header-img {
-	width: 100%;
-	max-height: 600px;
-	object-fit: cover;
-	display: block;
-}
-/* Overlay de texto sobre a imagem do cabeçalho */
-.header-text {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem;
-	color: #ffffff;
-	background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45));
-}
-.header-text h1 {
-	font-family: 'Montserrat', sans-serif;
-	font-size: 3.2rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	margin: 0;
-	text-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
-	padding: 1.5rem 2rem;
-	background: rgba(42, 77, 143, 0.7);
-	border-radius: 10px;
-}
-.header-text .subtitle {
-	font-family: 'Marriweather', serif;
-	font-style: italic;
-	font-size: 1.45rem;
-	margin: 1rem 0 0;
-	max-width: 900px;
-	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
-	padding: 0.75rem 2rem;
-	background: rgba(42, 77, 143, 0.65);
-	border-radius: 8px;
-}
-/* Estilos para o conteúdo principal */
-main {
-	padding: 2rem;
-}
-/* Estilos para a seção de informações e logística */
-.grid {
-	display: flex;
-	gap: 2rem;
-	flex-wrap: wrap;
-	margin-bottom: 2rem;
-}
-/* Estilos para os cartões de informações */
-.card {
-	background-color: #ffffff;
-	border-radius: 8px;
-	padding: 1.5rem;
-	flex: 1;
-	min-width: 280px;
-	box-shadow: 0 2px 6px rgba(0,0,0,0,.1);
-}
-/* Estilos para os títulos dos cartões */
-.card h2 {
-	color: #2A4D8F;
-	margin-bottom: 1rem;
-}
-/* Estilos para as listas dentro dos cartões */
-.card ul{
-	list-style: none;
-	padding: 0;
-}
-/* Estilos para os itens das listas dentro dos cartões */
-.card li {
-	margin-bottom: 0.5rem;
-}
-/* Estilos para o menu principal */
+/* Navegação (menu superior e flutuante), rodapé, e páginas de cadastro/login/minha caravana */
+
+/* Menu superior (dentro do header) */
 .top-nav {
 	display: flex;
 	justify-content: center;
@@ -131,14 +42,17 @@ main {
 .top-nav .active {
 	background-color: #e57c00;
 }
-/* Estilos para os botões de ação */
+/* esconde o link da própria página no menu superior (ex: "Início" na index) */
+.top-nav a.active {
+	display: none;
+}
 
-/* Navegação flutuante no canto inferior direito */
+/* Menu flutuante no canto inferior direito */
 .floating-nav {
 	position: fixed;
 	right: 1rem;
 	bottom: 1.5rem;
-	z-index: 9999;
+	z-index: 150;
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
@@ -164,22 +78,8 @@ main {
 	outline: 3px solid rgba(255,255,255,0.85);
 	outline-offset: 3px;
 }
-	font-family: 'Marriweather', serif;
-	font-style: italic;
-	font-size: 1.2rem;
-	color: #2A4D8F;
-}
-/* Estilos para os autores das citações na seção de inspiração */
-.video {
-	margin-top: 1rem;
-}
-/* Estilos para a seção de vídeo */
-.video img {
-	width: 100%;
-	max-width: 400px;
-	border-radius: 8px;
-}
-/* Estilos das páginas de formulário */
+
+/* Cabeçalho das páginas de cadastro/login/minha caravana */
 .page-hero {
 	padding: 2rem 1rem;
 	background: linear-gradient(180deg, rgba(42,77,143,0.95) 0%, rgba(42,77,143,0.8) 100%);
@@ -194,6 +94,8 @@ main {
 	max-width: 760px;
 	font-size: 1.1rem;
 }
+
+/* Cartão de formulário (cadastro/login) */
 .form-page,
 .gallery-page {
 	padding: 2rem 1rem;
@@ -234,6 +136,8 @@ main {
 	text-decoration: none;
 	font-weight: 700;
 }
+
+/* Galeria de templos (minha_caravana.html) */
 .temple-gallery {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -258,10 +162,10 @@ main {
 	background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.7) 100%);
 }
 .temple-card.rio {
-	background-image: url('img/rio_de_janeiro.webp');
+	background-image: url('../img/rio_de_janeiro.webp');
 }
 .temple-card.belo {
-	background-image: url('img/belo_horizonte.webp');
+	background-image: url('../img/belo_horizonte.webp');
 }
 .temple-content {
 	position: relative;
@@ -298,14 +202,6 @@ main {
 	padding: 0.2rem 0.4rem;
 	border-radius: 4px;
 }
-@media (max-width: 680px) {
-	.page-hero h1 {
-		font-size: 2rem;
-	}
-	.top-nav {
-		justify-content: center;
-	}
-}
 
 /* Rodapé do site */
 .site-footer {
@@ -321,30 +217,11 @@ main {
 	font-weight: 600;
 }
 
-/* Botão flutuante Início no canto inferior direito, sobre o rodapé */
-#btnInicio {
-	position: fixed;
-	right: 1rem;
-	bottom: 1.5rem;
-	z-index: 9999;
-	background-color: #FF9800;
-	color: #fff;
-	border: none;
-	padding: 0.85rem 1rem;
-	font-size: 1rem;
-	border-radius: 999px;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-	cursor: pointer;
-}
-#top-nav-hide-active .top-nav a.active { display: none; }
-
-/* hide the Início link in the top navigation (keeps it in DOM for accessibility) */
-.top-nav a.active {
-	display: none;
-}
-#btnInicio:hover,
-#btnInicio:focus-visible {
-	background-color: #ffb74d;
-	transform: translateY(-2px);
-	outline: none;
+@media (max-width: 680px) {
+	.page-hero h1 {
+		font-size: 2rem;
+	}
+	.top-nav {
+		justify-content: center;
+	}
 }

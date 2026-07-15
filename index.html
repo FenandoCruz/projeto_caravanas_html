@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caravanas SUD ao Templo</title>
-	<!-- Estilo CSS -->
-    <link rel="stylesheet" href="style.css" />
+	<!-- Estilos -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/modais.css" />
+    <link rel="stylesheet" href="css/calendario.css" />
+    <link rel="stylesheet" href="css/video.css" />
+    <link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
     <header id="home">
@@ -15,15 +20,16 @@
 			<a href="login.html">Login</a>
 			<a href="minha_caravana.html">Minha caravana</a>
 		</nav>
-        <!-- Imagem do cabeçalho -->
-        <img src="img/onibus_com_templo.png" alt="Ônibus e templo" class="header-img" />
-        <!-- Texto sobre a imagem do cabeçalho -->
-        <div class="header-text">
-            <h1>Caravanas SUD à Casa do Senhor</h1>
-            <p class="subtitle">Uma jornada de fé e serviços de amor</p>
-        </div>
+		<!-- Imagem do cabeçalho + texto sobreposto (num wrapper próprio, pra não ficar atrás do menu) -->
+		<div class="header-hero">
+			<img src="img/onibus_com_templo.png" alt="Ônibus e templo" class="header-img" />
+			<div class="header-text">
+				<h1>Caravanas SUD à Casa do Senhor</h1>
+				<p class="subtitle">Uma jornada de fé e serviços de amor</p>
+			</div>
+		</div>
 	</header>
-	
+
 	<main>
 		<!-- Seção de requisitos -->
 		<section class="grid">
@@ -59,7 +65,7 @@
 				<p>📝 Faça sua reserva online</p>
 				<!-- Botão de reserva -->
 				<button onclick="window.open('https://www.churchofjesuschrist.org/', '_blank')">Reservar Agora</button>
-				<p>📞 Dúvidas? Fale com seu líder</p>
+				<p>📞 Dúvidas? <a id="linkDuvidasWhatsapp" href="https://wa.me/5527988571560" target="_blank" rel="noopener">Fale com seu líder no WhatsApp</a></p>
 			</div>
 			<!-- Cartão de horários e logística -->
 			<div class="card">
@@ -71,15 +77,48 @@
 				</ul>
 			</div>
 		</section>
+		<!-- Seção de renovação de recomendação -->
+		<section class="recomendacao">
+			<div class="card">
+				<h2>Precisa renovar sua recomendação?</h2>
+				<p>Agende sua entrevista de renovação com o secretário.</p>
+				<button id="btnAgendarEntrevista">Agendar minha entrevista</button>
+			</div>
+		</section>
+
+		<!-- Seção de inscrição -->
+		<section class="inscricao">
+			<div class="card">
+				<h2>Inscrição na Caravana</h2>
+				<p>Confirme sua presença e envie o número do seu documento com foto.</p>
+				<button id="btnAbrirInscricao">Fazer minha inscrição</button>
+			</div>
+		</section>
+
+		<!-- Modal de inscrição, carregado de partials/modal-inscricao.html -->
+		<div data-partial="partials/modal-inscricao.html"></div>
+
+		<!-- Modal de agendamento de entrevista, carregado de partials/modal-entrevista.html -->
+		<div data-partial="partials/modal-entrevista.html"></div>
+
 		<!-- Seção de perguntas frequentes -->
 		<section class="faq">
 			<h2>Perguntas Frequentes</h2>
 			<!-- Pergunta 1 -->
-			<details><summary>Posso levar crianças?</summary>Sim, desde que tenha um adulto responsável para cuidar dela</details>
+			<details>
+				<summary>Posso levar crianças?</summary>
+				<p>Sim, desde que tenha um adulto responsável para cuidar dela</p>
+			</details>
 			<!-- Pergunta 2 -->
-			<details><summary>E se minha recomendação estiver vencida?</summary>É necessário renová-la antes da data de saída da caravana, se esse for o seu caso recomenda-se entrar em contato com o secretário da sua Ala e solicitar uma entrevista com um membro do bispado o mas rápido possível</details>
+			<details>
+				<summary>E se minha recomendação estiver vencida?</summary>
+				<p>É necessário renová-la antes da data de saída da caravana, se esse for o seu caso recomenda-se entrar em contato com o secretário da sua Ala e solicitar uma entrevista com um membro do bispado o mas rápido possível</p>
+			</details>
 			<!-- Pergunta 3 -->
-			<details><summary>Posso mudar a data da minha ida na caravana?</summary>Sim, desde que haja vagas disponíveis e seja feito dentro do prazo estabelecido que é de 15 dias antes da data de saída</details>
+			<details>
+				<summary>Posso mudar a data da minha ida na caravana?</summary>
+				<p>Sim, desde que haja vagas disponíveis e seja feito dentro do prazo estabelecido que é de 15 dias antes da data de saída</p>
+			</details>
 		</section>
 		<!-- Seção de inspiração -->
 		<section class="inspiração">
@@ -88,16 +127,18 @@
 		<!-- Seção de vídeo -->
 		<section class="video">
 			<h2>Assista ao vídeo</h2>
-			<!-- Vídeo de apresentação -->
-			<video controls width="600" poster="img/poster-reservas.png">
-				<source src="videos/video-reservas.mp4.mp4" type="video/mp4">
-				Seu navegador não suporta vídeo HTML5.
-			</video>
+			<!-- Miniatura clicável que abre o vídeo num modal -->
+			<button type="button" id="btnAbrirVideo" class="video-thumb" aria-label="Assistir ao vídeo">
+				<img src="img/poster-reservas.png" alt="Prévia do vídeo" />
+				<span class="video-play-icon" aria-hidden="true">▶</span>
+			</button>
 		</section>
+
+		<!-- Modal do vídeo, carregado de partials/modal-video.html -->
+		<div data-partial="partials/modal-video.html"></div>
 	</main>
 
-
-	<!-- Navegação flutuante substituindo o botão anterior -->
+	<!-- Navegação flutuante para as páginas de cadastro/login/minha caravana -->
 	<nav id="floating-nav" class="floating-nav" aria-label="Menu flutuante">
 		<a href="index.html" class="floating-link">Início</a>
 		<a href="cadastro.html" class="floating-link">Cadastro</a>
@@ -105,9 +146,20 @@
 		<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
 	</nav>
 
+	<!-- Modal de dúvidas, carregado de partials/modal-duvidas.html -->
+	<div data-partial="partials/modal-duvidas.html"></div>
+
 	<!-- Rodapé do site -->
 	<footer class="site-footer">
 		<p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
 	</footer>
+
+	<!-- Scripts (nesta ordem: config primeiro, partials carregam os modais, depois cada funcionalidade) -->
+	<script src="js/config.js" defer></script>
+	<script src="js/partials.js" defer></script>
+	<script src="js/video.js" defer></script>
+	<script src="js/inscricao.js" defer></script>
+	<script src="js/duvidas.js" defer></script>
+	<script src="js/entrevista.js" defer></script>
 </body>
 </html>

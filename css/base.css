@@ -1,0 +1,183 @@
+/* Estilos base do site: reset, cabeçalho, cartões, botões e seções gerais */
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: #E6F0FA;
+	color: #333;
+	margin: 0;
+	padding: 0;
+}
+
+/* Cabeçalho */
+header {
+	text-align: center;
+}
+.header-hero {
+	position: relative;
+}
+.header-img {
+	width: 100%;
+	max-height: 600px;
+	object-fit: cover;
+	display: block;
+}
+.header-text {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+	color: #ffffff;
+	background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45));
+}
+.header-text h1 {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 3.2rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	margin: 0;
+	text-shadow: 0 3px 15px rgba(0, 0, 0, 0.9);
+	padding: 1.5rem 2rem;
+	background: rgba(42, 77, 143, 0.7);
+	border-radius: 10px;
+}
+.header-text .subtitle {
+	font-family: 'Marriweather', serif;
+	font-style: italic;
+	font-size: 1.45rem;
+	margin: 1rem 0 0;
+	max-width: 900px;
+	text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+	padding: 0.75rem 2rem;
+	background: rgba(42, 77, 143, 0.65);
+	border-radius: 8px;
+}
+
+/* Conteúdo principal */
+main {
+	padding: 2rem;
+}
+
+/* Seção em grade (requisitos/custos) */
+.grid {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+	margin-bottom: 2rem;
+}
+
+/* Cartões de informação */
+.card {
+	background-color: #ffffff;
+	border-radius: 8px;
+	padding: 1.5rem;
+	flex: 1;
+	min-width: 280px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0,.1);
+}
+.card h2 {
+	color: #2A4D8F;
+	margin-bottom: 1rem;
+}
+.card ul {
+	list-style: none;
+	padding: 0;
+}
+.card li {
+	margin-bottom: 0.5rem;
+}
+
+/* Botões de ação */
+button {
+	background-color: #FF9800;
+	color: white;
+	border: none;
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	font-family: inherit;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 1rem 0;
+	transition: background-color 0.15s ease, transform 0.1s ease;
+}
+button:hover {
+	background-color: #e08600;
+}
+button:active {
+	transform: scale(0.98);
+}
+
+/* Perguntas frequentes */
+.faq h2 {
+	color: #2A4D8F;
+	margin-bottom: 1rem;
+}
+.faq details {
+	background-color: #ffffff;
+	border-radius: 8px;
+	padding: 1rem 1.25rem;
+	margin-bottom: 0.75rem;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.faq summary {
+	list-style: none;
+	cursor: pointer;
+	font-weight: 600;
+	color: #2A4D8F;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.faq summary::-webkit-details-marker {
+	display: none;
+}
+.faq summary::after {
+	content: '⌄';
+	font-size: 1.3rem;
+	line-height: 1;
+	color: #2A4D8F;
+	flex: none;
+	transition: transform 0.2s ease;
+}
+.faq details[open] summary::after {
+	transform: rotate(180deg);
+}
+.faq details[open] summary {
+	margin-bottom: 0.5rem;
+}
+.faq details p {
+	margin: 0;
+	color: #555;
+	line-height: 1.5;
+}
+
+/* Seção de inspiração */
+.inspiracao {
+	text-align: center;
+	margin-top: 2rem;
+}
+blockquote {
+	font-family: 'Marriweather', serif;
+	font-style: italic;
+	font-size: 1.2rem;
+	color: #2A4D8F;
+}
+
+/* Seção de vídeo (miniatura e modal ficam em video.css) */
+.video {
+	margin-top: 1rem;
+}
+
+/* Seção de inscrição / recomendação (só o espaçamento; o resto está em modais.css) */
+.inscricao,
+.recomendacao {
+	margin-bottom: 2rem;
+}
