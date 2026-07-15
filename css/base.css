@@ -12,8 +12,10 @@ body {
 
 /* Cabeçalho */
 header {
-	position: relative;
 	text-align: center;
+}
+.header-hero {
+	position: relative;
 }
 .header-img {
 	width: 100%;

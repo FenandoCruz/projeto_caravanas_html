@@ -1,0 +1,227 @@
+/* Navegação (menu superior e flutuante), rodapé, e páginas de cadastro/login/minha caravana */
+
+/* Menu superior (dentro do header) */
+.top-nav {
+	display: flex;
+	justify-content: center;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+	margin: 1rem auto 0;
+	padding: 0 1rem;
+}
+.top-nav a,
+.top-nav button {
+	background-color: #FF9800;
+	color: white;
+	border: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 1.4rem;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 999px;
+	cursor: pointer;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+	transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+	text-decoration: none;
+}
+.top-nav a:hover,
+.top-nav a:focus-visible,
+.top-nav button:hover,
+.top-nav button:focus-visible {
+	background-color: #ffb74d;
+	transform: translateY(-1px);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+}
+.top-nav a:focus-visible,
+.top-nav button:focus-visible {
+	outline: 3px solid rgba(255, 255, 255, 0.85);
+	outline-offset: 3px;
+}
+.top-nav .active {
+	background-color: #e57c00;
+}
+/* esconde o link da própria página no menu superior (ex: "Início" na index) */
+.top-nav a.active {
+	display: none;
+}
+
+/* Menu flutuante no canto inferior esquerdo (o direito já é do botão do WhatsApp) */
+.floating-nav {
+	position: fixed;
+	left: 1rem;
+	bottom: 1.5rem;
+	z-index: 150;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	align-items: flex-start;
+}
+.floating-nav .floating-link {
+	background-color: #FF9800;
+	color: #fff;
+	padding: 0.6rem 0.95rem;
+	font-size: 0.98rem;
+	font-weight: 700;
+	border-radius: 999px;
+	text-decoration: none;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.floating-nav .floating-link:hover,
+.floating-nav .floating-link:focus-visible {
+	background-color: #ffb74d;
+	transform: translateY(-2px);
+	outline: 3px solid rgba(255,255,255,0.85);
+	outline-offset: 3px;
+}
+
+/* Cabeçalho das páginas de cadastro/login/minha caravana */
+.page-hero {
+	padding: 2rem 1rem;
+	background: linear-gradient(180deg, rgba(42,77,143,0.95) 0%, rgba(42,77,143,0.8) 100%);
+	color: white;
+}
+.page-hero h1 {
+	margin: 0;
+	font-size: 2.5rem;
+}
+.page-hero p {
+	margin: 0.75rem auto 0;
+	max-width: 760px;
+	font-size: 1.1rem;
+}
+
+/* Cartão de formulário (cadastro/login) */
+.form-page,
+.gallery-page {
+	padding: 2rem 1rem;
+}
+.form-card {
+	max-width: 520px;
+	margin: 0 auto;
+	background: white;
+	padding: 2rem;
+	border-radius: 14px;
+	box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+}
+.form-card h2 {
+	margin-top: 0;
+}
+.form-card form {
+	display: grid;
+	gap: 1rem;
+}
+.form-card label {
+	display: grid;
+	gap: 0.35rem;
+	font-weight: 600;
+	color: #2A4D8F;
+}
+.form-card input {
+	padding: 0.9rem 1rem;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	font-size: 1rem;
+}
+.small-text {
+	margin-top: 1rem;
+	color: #555;
+}
+.small-text a {
+	color: #2A4D8F;
+	text-decoration: none;
+	font-weight: 700;
+}
+
+/* Galeria de templos (minha_caravana.html) */
+.temple-gallery {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 1.5rem;
+}
+.temple-card {
+	position: relative;
+	min-height: 380px;
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: 0 20px 40px rgba(0,0,0,0.14);
+	background-size: cover;
+	background-position: center;
+}
+.temple-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.7) 100%);
+}
+.temple-card.rio {
+	background-image: url('../img/rio_de_janeiro.webp');
+}
+.temple-card.belo {
+	background-image: url('../img/belo_horizonte.webp');
+}
+.temple-content {
+	position: relative;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 2rem;
+	color: white;
+}
+.temple-title {
+	display: inline-block;
+	font-size: 2rem;
+	font-weight: 700;
+	margin-bottom: 1rem;
+}
+.schedule-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.schedule-list li {
+	margin-bottom: 0.75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+.image-notes {
+	margin-top: 1.5rem;
+	text-align: center;
+	color: #444;
+}
+.image-notes code {
+	background: #f5f5f5;
+	padding: 0.2rem 0.4rem;
+	border-radius: 4px;
+}
+
+/* Rodapé do site */
+.site-footer {
+	background: #2A4D8F;
+	color: #fff;
+	text-align: center;
+	padding: 1.25rem 1rem;
+	position: relative;
+	z-index: 10;
+}
+.site-footer p {
+	margin: 0;
+	font-weight: 600;
+}
+
+@media (max-width: 680px) {
+	.page-hero h1 {
+		font-size: 2rem;
+	}
+	.top-nav {
+		justify-content: center;
+	}
+}

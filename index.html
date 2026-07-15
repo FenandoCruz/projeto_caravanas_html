@@ -6,20 +6,28 @@
     <title>Caravanas SUD ao Templo</title>
 	<!-- Estilos -->
     <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/nav.css" />
     <link rel="stylesheet" href="css/modais.css" />
     <link rel="stylesheet" href="css/calendario.css" />
     <link rel="stylesheet" href="css/video.css" />
     <link rel="stylesheet" href="css/responsivo.css" />
 </head>
 <body>
-    <header>
-        <!-- Imagem do cabeçalho -->
-        <img src="img/onibus_com_templo.png" alt="Ônibus e templo" class="header-img" />
-        <!-- Texto sobre a imagem do cabeçalho -->
-        <div class="header-text">
-            <h1>Caravanas SUD à Casa do Senhor</h1>
-            <p class="subtitle">Uma jornada de fé e serviços de amor</p>
-        </div>
+    <header id="home">
+        <!-- Navegação principal -->
+		<nav class="top-nav" aria-label="Menu principal">
+			<a href="cadastro.html">Cadastro</a>
+			<a href="login.html">Login</a>
+			<a href="minha_caravana.html">Minha caravana</a>
+		</nav>
+		<!-- Imagem do cabeçalho + texto sobreposto (num wrapper próprio, pra não ficar atrás do menu) -->
+		<div class="header-hero">
+			<img src="img/onibus_com_templo.png" alt="Ônibus e templo" class="header-img" />
+			<div class="header-text">
+				<h1>Caravanas SUD à Casa do Senhor</h1>
+				<p class="subtitle">Uma jornada de fé e serviços de amor</p>
+			</div>
+		</div>
 	</header>
 
 	<main>
@@ -137,8 +145,21 @@
 		</svg>
 	</a>
 
+	<!-- Navegação flutuante para as páginas de cadastro/login/minha caravana (canto esquerdo, pra não bater com o WhatsApp) -->
+	<nav id="floating-nav" class="floating-nav" aria-label="Menu flutuante">
+		<a href="index.html" class="floating-link">Início</a>
+		<a href="cadastro.html" class="floating-link">Cadastro</a>
+		<a href="login.html" class="floating-link">Login</a>
+		<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
+	</nav>
+
 	<!-- Modal de dúvidas, carregado de partials/modal-duvidas.html -->
 	<div data-partial="partials/modal-duvidas.html"></div>
+
+	<!-- Rodapé do site -->
+	<footer class="site-footer">
+		<p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
+	</footer>
 
 	<!-- Scripts (nesta ordem: config primeiro, partials carregam os modais, depois cada funcionalidade) -->
 	<script src="js/config.js" defer></script>
