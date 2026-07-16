@@ -8,7 +8,7 @@ document.addEventListener('partials:prontos', () => {
 	const etapaDataEntrevista = document.getElementById('etapaDataEntrevista');
 	const etapaHorarioEntrevista = document.getElementById('etapaHorarioEntrevista');
 	const etapaConfirmarEntrevista = document.getElementById('etapaConfirmarEntrevista');
-	const erroDataEntrevista = document.getElementById('erroDataEntrevista');
+	const btnProximoData = document.getElementById('btnProximoData');
 	const selectHorarioEntrevista = document.getElementById('selectHorarioEntrevista');
 	const previewMensagemEntrevista = document.getElementById('previewMensagemEntrevista');
 
@@ -80,7 +80,7 @@ document.addEventListener('partials:prontos', () => {
 						month: '2-digit',
 						year: 'numeric'
 					});
-					erroDataEntrevista.hidden = true;
+					btnProximoData.disabled = false;
 					renderCalendario();
 				});
 			}
@@ -110,7 +110,7 @@ document.addEventListener('partials:prontos', () => {
 		etapaDataEntrevista.hidden = false;
 		etapaHorarioEntrevista.hidden = true;
 		etapaConfirmarEntrevista.hidden = true;
-		erroDataEntrevista.hidden = true;
+		btnProximoData.disabled = true;
 		selectHorarioEntrevista.selectedIndex = 0;
 		iniciarCalendario();
 		modalEntrevista.hidden = false;
@@ -123,13 +123,7 @@ document.addEventListener('partials:prontos', () => {
 	document.getElementById('btnAgendarEntrevista')?.addEventListener('click', abrirModalEntrevista);
 	document.getElementById('btnFecharModalEntrevistaX')?.addEventListener('click', fecharModalEntrevista);
 
-	document.getElementById('btnProximoData')?.addEventListener('click', () => {
-		if (!dataSelecionadaISO) {
-			erroDataEntrevista.hidden = false;
-			erroDataEntrevista.textContent = 'Escolha uma data no calendário.';
-			return;
-		}
-
+	btnProximoData?.addEventListener('click', () => {
 		etapaDataEntrevista.hidden = true;
 		etapaHorarioEntrevista.hidden = false;
 	});

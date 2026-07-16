@@ -11,6 +11,7 @@ document.addEventListener('partials:prontos', () => {
 	function abrirModalDuvidas(e) {
 		e?.preventDefault();
 		assuntoSelecionado = '';
+		document.querySelectorAll('.assunto-btn').forEach(b => b.classList.remove('selecionado'));
 		etapaAssunto.hidden = false;
 		etapaConfirmarDuvida.hidden = true;
 		modalDuvidas.hidden = false;
@@ -28,9 +29,10 @@ document.addEventListener('partials:prontos', () => {
 		etapaConfirmarDuvida.hidden = true;
 	});
 
-	document.querySelectorAll('.lista-assuntos li').forEach(li => {
-		li.addEventListener('click', () => {
-			assuntoSelecionado = li.dataset.assunto;
+	document.querySelectorAll('.assunto-btn').forEach(btn => {
+		btn.addEventListener('click', () => {
+			assuntoSelecionado = btn.dataset.assunto;
+			document.querySelectorAll('.assunto-btn').forEach(b => b.classList.toggle('selecionado', b === btn));
 			previewMensagemDuvida.textContent = `"Olá, tenho dúvidas sobre ${assuntoSelecionado} - pode me ajudar com isso?"`;
 			etapaAssunto.hidden = true;
 			etapaConfirmarDuvida.hidden = false;

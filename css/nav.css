@@ -6,48 +6,50 @@
 	justify-content: center;
 	gap: 0.75rem;
 	flex-wrap: wrap;
-	margin: 1rem auto 0;
+	margin: 1rem auto;
 	padding: 0 1rem;
 }
-.top-nav a,
-.top-nav button {
-	background-color: #FF9800;
-	color: white;
-	border: none;
+.top-nav a {
+	background-color: #fff;
+	color: #2A4D8F;
+	border: 2px solid transparent;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.85rem 1.4rem;
+	padding: 0.8rem 1.45rem;
 	font-size: 1rem;
-	font-weight: 600;
+	font-weight: 700;
 	border-radius: 999px;
 	cursor: pointer;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-	transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	transition: background-color 0.15s ease, box-shadow 0.15s ease;
 	text-decoration: none;
 }
 .top-nav a:hover,
-.top-nav a:focus-visible,
-.top-nav button:hover,
-.top-nav button:focus-visible {
-	background-color: #ffb74d;
-	transform: translateY(-1px);
-	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+.top-nav a:focus-visible {
+	background-color: #F0F6FC;
 }
-.top-nav a:focus-visible,
-.top-nav button:focus-visible {
-	outline: 3px solid rgba(255, 255, 255, 0.85);
+.top-nav a:focus-visible {
+	outline: 3px solid rgba(42, 77, 143, 0.4);
 	outline-offset: 3px;
-}
-.top-nav .active {
-	background-color: #e57c00;
 }
 /* esconde o link da própria página no menu superior (ex: "Início" na index) */
 .top-nav a.active {
 	display: none;
 }
+/* páginas ainda sem função real (protótipo visual) ficam com visual apagado */
+.top-nav a.stub {
+	background-color: transparent;
+	color: #8a94a3;
+	border-color: #dbe4f0;
+	box-shadow: none;
+}
+.top-nav a.stub:hover {
+	background-color: transparent;
+	border-color: #c3d0e0;
+}
 
-/* Menu flutuante no canto inferior direito */
+/* Menu flutuante no canto inferior direito (FAB: bolinha "+" que expande) */
 .floating-nav {
 	position: fixed;
 	right: 1rem;
@@ -55,14 +57,23 @@
 	z-index: 150;
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
 	align-items: flex-end;
+	gap: 0.6rem;
 }
-.floating-nav .floating-link {
-	background-color: #FF9800;
-	color: #fff;
-	padding: 0.6rem 0.95rem;
-	font-size: 0.98rem;
+.floating-nav-links {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.5rem;
+}
+.floating-nav-links[hidden] {
+	display: none;
+}
+.floating-link {
+	background-color: #fff;
+	color: #2A4D8F;
+	padding: 0.65rem 1.1rem;
+	font-size: 0.92rem;
 	font-weight: 700;
 	border-radius: 999px;
 	text-decoration: none;
@@ -70,13 +81,40 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	animation: slideUp 0.18s ease;
 }
-.floating-nav .floating-link:hover,
-.floating-nav .floating-link:focus-visible {
-	background-color: #ffb74d;
-	transform: translateY(-2px);
-	outline: 3px solid rgba(255,255,255,0.85);
+.floating-link:hover,
+.floating-link:focus-visible {
+	background-color: #F0F6FC;
+	outline: 3px solid rgba(42, 77, 143, 0.4);
 	outline-offset: 3px;
+}
+.floating-link.stub {
+	color: #8a94a3;
+}
+.fab-toggle {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	background-color: #FF9800;
+	color: #fff;
+	border: none;
+	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding: 0;
+	margin: 0;
+}
+.fab-toggle:hover {
+	background-color: #e08600;
+}
+@keyframes slideUp {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
 }
 
 /* Cabeçalho das páginas de cadastro/login/minha caravana */
@@ -159,13 +197,14 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.7) 100%);
+	background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(20,30,50,0.85) 58%, rgba(20,30,50,0.94) 100%);
 }
 .temple-card.rio {
-	background-image: url('../img/rio_de_janeiro.webp');
+	background-image: url('../img/rio_de_janeiro.jpg');
+	background-position: center 78%;
 }
 .temple-card.belo {
-	background-image: url('../img/belo_horizonte.webp');
+	background-image: url('../img/belo_horizonte.jpg');
 }
 .temple-content {
 	position: relative;
@@ -188,19 +227,73 @@
 	margin: 0;
 }
 .schedule-list li {
-	margin-bottom: 0.75rem;
-	font-size: 1rem;
-	line-height: 1.5;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.75rem 0.9rem;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 10px;
+	margin-bottom: 0.5rem;
 }
-.image-notes {
-	margin-top: 1.5rem;
-	text-align: center;
-	color: #444;
+.schedule-label {
+	font-weight: 700;
+	font-size: 0.95rem;
 }
-.image-notes code {
-	background: #f5f5f5;
-	padding: 0.2rem 0.4rem;
-	border-radius: 4px;
+.schedule-range {
+	font-size: 0.85rem;
+	opacity: 0.85;
+	margin-top: 0.15rem;
+}
+.schedule-badge {
+	padding: 0.3rem 0.75rem;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	white-space: nowrap;
+	flex: none;
+}
+.schedule-badge.disponivel {
+	background: #E5F4EA;
+	color: #1E7B34;
+}
+.schedule-badge.em-breve {
+	background: #FFF3E0;
+	color: #B15B00;
+}
+.schedule-badge.encerrada {
+	background: #EEF1F5;
+	color: #8A94A3;
+}
+
+/* Legenda de status acima da galeria de templos */
+.status-legend {
+	display: flex;
+	gap: 1.25rem;
+	flex-wrap: wrap;
+	margin-bottom: 1.25rem;
+	font-size: 0.85rem;
+	color: #4a5568;
+}
+.status-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+.status-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	display: inline-block;
+}
+.status-dot.disponivel {
+	background: #1E7B34;
+}
+.status-dot.em-breve {
+	background: #B15B00;
+}
+.status-dot.encerrada {
+	background: #8A94A3;
 }
 
 /* Rodapé do site */

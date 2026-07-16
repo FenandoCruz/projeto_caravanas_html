@@ -94,24 +94,76 @@ main {
 	margin-bottom: 0.5rem;
 }
 
-/* Botões de ação */
+/* Cartão de destaque (CTA principal, ex: Inscrição na Caravana) */
+.card-destaque {
+	background-color: #2A4D8F;
+	text-align: center;
+	box-shadow: 0 20px 45px rgba(42,77,143,0.35);
+}
+.card-destaque h2 {
+	color: #fff;
+}
+.card-destaque p {
+	color: rgba(255,255,255,0.92);
+	max-width: 520px;
+	margin: 0 auto 1.5rem;
+}
+.card-destaque button {
+	transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-destaque button:hover {
+	transform: translateY(-2px);
+}
+
+/* Botões de ação: primário sólido laranja (padrão) */
 button {
 	background-color: #FF9800;
 	color: white;
 	border: none;
-	padding: 0.75rem 1.5rem;
+	padding: 0.85rem 1.6rem;
 	font-size: 1rem;
+	font-weight: 700;
 	font-family: inherit;
-	border-radius: 5px;
+	border-radius: 999px;
 	cursor: pointer;
 	margin: 1rem 0;
-	transition: background-color 0.15s ease, transform 0.1s ease;
+	box-shadow: 0 8px 20px rgba(255,152,0,0.3);
+	transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 button:hover {
 	background-color: #e08600;
 }
 button:active {
 	transform: scale(0.98);
+}
+button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+	box-shadow: none;
+	transform: none;
+}
+button:disabled:hover {
+	background-color: #FF9800;
+}
+
+/* Botão de link de texto (ex: "Fale com seu líder no WhatsApp") */
+.btn-link {
+	background: none;
+	border: none;
+	color: #2A4D8F;
+	font-weight: 700;
+	font-size: 0.98rem;
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	box-shadow: none;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	display: inline;
+}
+.btn-link:hover {
+	background: none;
+	color: #FF9800;
 }
 
 /* Perguntas frequentes */
@@ -140,15 +192,22 @@ button:active {
 	display: none;
 }
 .faq summary::after {
-	content: '⌄';
-	font-size: 1.3rem;
-	line-height: 1;
-	color: #2A4D8F;
+	content: '';
 	flex: none;
-	transition: transform 0.2s ease;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background-color: #E6F0FA;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%232A4D8F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 7.5L10 12L14.5 7.5'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 14px;
+	transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .faq details[open] summary::after {
 	transform: rotate(180deg);
+	background-color: #2A4D8F;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 7.5L10 12L14.5 7.5'/%3E%3C/svg%3E");
 }
 .faq details[open] summary {
 	margin-bottom: 0.5rem;

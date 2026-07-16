@@ -16,8 +16,8 @@
     <header id="home">
         <!-- Navegação principal -->
 		<nav class="top-nav" aria-label="Menu principal">
-			<a href="cadastro.html">Cadastro</a>
-			<a href="login.html">Login</a>
+			<a href="cadastro.html" class="stub">Cadastro</a>
+			<a href="login.html" class="stub">Login</a>
 			<a href="minha_caravana.html">Minha caravana</a>
 		</nav>
 		<!-- Imagem do cabeçalho + texto sobreposto (num wrapper próprio, pra não ficar atrás do menu) -->
@@ -64,8 +64,8 @@
 				<h2>Reservas de Ordenanças</h2>
 				<p>📝 Faça sua reserva online</p>
 				<!-- Botão de reserva -->
-				<button onclick="window.open('https://www.churchofjesuschrist.org/', '_blank')">Reservar Agora</button>
-				<p>📞 Dúvidas? <a id="linkDuvidasWhatsapp" href="https://wa.me/5527988571560" target="_blank" rel="noopener">Fale com seu líder no WhatsApp</a></p>
+				<button class="btn-secundario" onclick="window.open('https://www.churchofjesuschrist.org/', '_blank')">Reservar Agora</button>
+				<p>📞 Dúvidas? <button type="button" id="linkDuvidasWhatsapp" class="btn-link">Fale com seu líder no WhatsApp</button></p>
 			</div>
 			<!-- Cartão de horários e logística -->
 			<div class="card">
@@ -82,13 +82,13 @@
 			<div class="card">
 				<h2>Precisa renovar sua recomendação?</h2>
 				<p>Agende sua entrevista de renovação com o secretário.</p>
-				<button id="btnAgendarEntrevista">Agendar minha entrevista</button>
+				<button id="btnAgendarEntrevista" class="btn-secundario">Agendar minha entrevista</button>
 			</div>
 		</section>
 
 		<!-- Seção de inscrição -->
 		<section class="inscricao">
-			<div class="card">
+			<div class="card card-destaque">
 				<h2>Inscrição na Caravana</h2>
 				<p>Confirme sua presença e envie o número do seu documento com foto.</p>
 				<button id="btnAbrirInscricao">Fazer minha inscrição</button>
@@ -138,13 +138,15 @@
 		<div data-partial="partials/modal-video.html"></div>
 	</main>
 
-	<!-- Navegação flutuante para as páginas de cadastro/login/minha caravana -->
-	<nav id="floating-nav" class="floating-nav" aria-label="Menu flutuante">
-		<a href="index.html" class="floating-link">Início</a>
-		<a href="cadastro.html" class="floating-link">Cadastro</a>
-		<a href="login.html" class="floating-link">Login</a>
-		<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
-	</nav>
+	<!-- Menu flutuante (FAB): bolinha "+" que expande com os links -->
+	<div class="floating-nav">
+		<div id="fabLinks" class="floating-nav-links" hidden>
+			<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
+			<a href="cadastro.html" class="floating-link stub">Cadastro</a>
+			<a href="login.html" class="floating-link stub">Login</a>
+		</div>
+		<button type="button" id="fabToggle" class="fab-toggle" aria-label="Abrir menu" aria-expanded="false">＋</button>
+	</div>
 
 	<!-- Modal de dúvidas, carregado de partials/modal-duvidas.html -->
 	<div data-partial="partials/modal-duvidas.html"></div>
@@ -156,6 +158,7 @@
 
 	<!-- Scripts (nesta ordem: config primeiro, partials carregam os modais, depois cada funcionalidade) -->
 	<script src="js/config.js" defer></script>
+	<script src="js/nav.js" defer></script>
 	<script src="js/partials.js" defer></script>
 	<script src="js/video.js" defer></script>
 	<script src="js/inscricao.js" defer></script>

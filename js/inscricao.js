@@ -17,6 +17,7 @@ document.addEventListener('partials:prontos', () => {
 	const modalTelefone = document.getElementById('modalTelefone');
 	const inputDocumento = document.getElementById('inputDocumento');
 	const modalErro = document.getElementById('modalErro');
+	const btnEnviarInscricao = document.getElementById('btnEnviarInscricao');
 
 	let pessoaSelecionada = null;
 	let debounceTimer = null;
@@ -30,6 +31,7 @@ document.addEventListener('partials:prontos', () => {
 		modalErro.hidden = true;
 		inputNome.value = '';
 		inputDocumento.value = '';
+		btnEnviarInscricao.disabled = true;
 		listaResultados.hidden = true;
 		listaResultados.innerHTML = '';
 		buscaMensagem.hidden = true;
@@ -45,6 +47,7 @@ document.addEventListener('partials:prontos', () => {
 	// o maior entre os documentos aceitos; RG e outros cabem dentro desse limite)
 	inputDocumento?.addEventListener('input', () => {
 		inputDocumento.value = inputDocumento.value.replace(/\D/g, '').slice(0, 11);
+		btnEnviarInscricao.disabled = !inputDocumento.value;
 	});
 
 	inputNome?.addEventListener('input', () => {
@@ -129,6 +132,7 @@ document.addEventListener('partials:prontos', () => {
 		etapaSucesso.hidden = true;
 		modalErro.hidden = true;
 		inputDocumento.value = '';
+		btnEnviarInscricao.disabled = true;
 	}
 
 	function fecharModal() {
@@ -146,15 +150,9 @@ document.addEventListener('partials:prontos', () => {
 		etapaDocumento.hidden = false;
 	});
 
-	document.getElementById('btnEnviarInscricao')?.addEventListener('click', async () => {
+	btnEnviarInscricao?.addEventListener('click', async () => {
 		const documento = inputDocumento.value.trim();
 		modalErro.hidden = true;
-
-		if (!documento) {
-			modalErro.hidden = false;
-			modalErro.textContent = 'Informe o número do documento (com foto).';
-			return;
-		}
 
 		try {
 			const resp = await fetch(SCRIPT_URL, {
