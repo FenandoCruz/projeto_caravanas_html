@@ -1,14 +1,21 @@
 const MEMBROS_SHEET = 'Membros';       // aba privada com a lista importada do PDF (Nome completo, Sexo, Idade, Data de Nascimento, Telefone, Email)
-const RESPOSTAS_SHEET = 'Sheet1';      // aba onde ficam "Nome completo" / "Número do documento ( com foto )" (a que já existe)
-const RESPOSTAS_HEADER_ROW = 3;        // linha onde estão os títulos "Nome completo" | "Número do documento..."
+const RESPOSTAS_SHEET = 'Nomes';       // aba onde ficam "Nome completo" / "Número do documento ( com foto )" / "Data da caravana" (a que já existe, ex-"Sheet1")
+const RESPOSTAS_HEADER_ROW = 3;        // linha onde estão os títulos "Nome completo" | "Número do documento..." | "Data da caravana"
+const DATAS_SHEET = 'Datas';           // aba com as datas de caravana disponíveis (colunas "Data" e "Disponibilidade")
 const MAX_RESULTS = 8;
 const MIN_QUERY_LEN = 3;
 const EMAIL_NOTIFICACAO = 'telesthierry@gmail.com'; // recebe um e-mail a cada nova inscrição
 
 function doGet(e) {
+  const parametro = (e && e.parameter) || {};
+
+  if (parametro.action === 'datas') {
+    return jsonResponse({ ok: true, datas: getDatasDisponiveis_() });
+  }
+
   // se "e" vier undefined (ex: rodando pelo botão "Executar" do editor, sem
   // requisição real por trás), trata como busca vazia em vez de quebrar
-  const query = ((e && e.parameter && e.parameter.nome) || '').trim();
+  const query = (parametro.nome || '').trim();
   if (query.length < MIN_QUERY_LEN) {
     return jsonResponse({ ok: true, results: [] });
   }
@@ -28,9 +35,10 @@ function doPost(e) {
     const body = JSON.parse(e.postData.contents);
     const nome = (body.nome || '').trim();
     const documento = (body.documento || '').trim();
+    const data = (body.data || '').trim();
 
-    if (!nome || !documento) {
-      return jsonResponse({ ok: false, error: 'Nome e número do documento são obrigatórios.' });
+    if (!nome || !documento || !data) {
+      return jsonResponse({ ok: false, error: 'Nome, número do documento e data da caravana são obrigatórios.' });
     }
 
     const membros = getMembros_();
@@ -56,17 +64,34 @@ function doPost(e) {
       }
     }
 
-    sheet.getRange(lastRow + 1, 1, 1, 3).setValues([[nome, documento, new Date()]]);
-    notificarNovaInscricao_(nome, documento);
+    sheet.getRange(lastRow + 1, 1, 1, 4).setValues([[nome, documento, data, new Date()]]);
+    notificarNovaInscricao_(nome, documento, data);
     return jsonResponse({ ok: true });
   } catch (err) {
     return jsonResponse({ ok: false, error: 'Erro ao processar inscrição: ' + err.message });
   }
 }
 
+// Lê a aba "Datas" (colunas "Data" e "Disponibilidade") e retorna só as datas
+// marcadas com "sim", já formatadas pra exibir na lista de escolha.
+function getDatasDisponiveis_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DATAS_SHEET);
+  if (!sheet) return [];
+
+  const values = sheet.getDataRange().getValues();
+  const [header, ...rows] = values;
+  const idxData = header.indexOf('Data');
+  const idxDisponibilidade = header.indexOf('Disponibilidade');
+  if (idxData < 0 || idxDisponibilidade < 0) return [];
+
+  return rows
+    .filter(r => r[idxData] && normalize_(String(r[idxDisponibilidade])) === 'sim')
+    .map(r => formatarData_(r[idxData]));
+}
+
 // Avisa por e-mail a cada nova inscrição. Envolvido em try/catch pra nunca
 // travar a inscrição da pessoa por causa de um problema no envio do e-mail.
-function notificarNovaInscricao_(nome, documento) {
+function notificarNovaInscricao_(nome, documento, data) {
   if (!EMAIL_NOTIFICACAO) return;
   try {
     MailApp.sendEmail({
@@ -74,8 +99,9 @@ function notificarNovaInscricao_(nome, documento) {
       subject: `${nome} fez uma inscrição para a caravana`,
       body: `${nome} fez uma inscrição para a caravana.\n\n` +
         `Documento informado: ${documento}\n` +
+        `Data da caravana: ${data}\n` +
         `Data/hora: ${new Date().toLocaleString('pt-BR')}`,
-      htmlBody: montarEmailHtml_(nome, documento)
+      htmlBody: montarEmailHtml_(nome, documento, data)
     });
   } catch (err) {
     // a inscrição já foi gravada com sucesso; só registra o erro do e-mail no log
@@ -85,7 +111,7 @@ function notificarNovaInscricao_(nome, documento) {
 }
 
 // Template do e-mail com a cara do site (azul/laranja) + botão pra abrir a planilha
-function montarEmailHtml_(nome, documento) {
+function montarEmailHtml_(nome, documento, data) {
   const dataHora = new Date().toLocaleString('pt-BR');
   const linkPlanilha = SpreadsheetApp.getActiveSpreadsheet().getUrl();
 
@@ -107,7 +133,11 @@ function montarEmailHtml_(nome, documento) {
                 <td style="padding:0.4rem 0; color:#333; font-size:0.95rem; text-align:right;">${documento}</td>
               </tr>
               <tr>
-                <td style="padding:0.4rem 0; color:#555; font-size:0.95rem;">Data/hora</td>
+                <td style="padding:0.4rem 0; color:#555; font-size:0.95rem;">Data da caravana</td>
+                <td style="padding:0.4rem 0; color:#333; font-size:0.95rem; text-align:right;">${data}</td>
+              </tr>
+              <tr>
+                <td style="padding:0.4rem 0; color:#555; font-size:0.95rem;">Data/hora do envio</td>
                 <td style="padding:0.4rem 0; color:#333; font-size:0.95rem; text-align:right;">${dataHora}</td>
               </tr>
             </table>

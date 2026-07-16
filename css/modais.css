@@ -151,7 +151,8 @@
 }
 
 /* Campos de texto dentro do modal (ex: número do documento) */
-#etapaDocumento input {
+#etapaDocumento input,
+#etapaRevisao input {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 0.65rem 1rem;

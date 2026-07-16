@@ -30,8 +30,27 @@
 			<h3>Confirmar inscrição</h3>
 			<label for="inputDocumento">Número do documento (com foto)</label>
 			<input type="text" id="inputDocumento" placeholder="Ex: nº do RG ou CNH" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
-			<button id="btnEnviarInscricao" disabled>Enviar inscrição</button>
+			<button id="btnContinuarDocumento" disabled>Continuar</button>
 			<p id="modalErro" class="modal-erro" hidden></p>
+		</div>
+
+		<div id="etapaData" hidden>
+			<h3>Escolha a data da caravana</h3>
+			<div id="listaDatas" class="lista-assuntos"></div>
+			<p id="datasMensagem" class="busca-mensagem" hidden></p>
+		</div>
+
+		<div id="etapaRevisao" hidden>
+			<h3>Confira suas informações</h3>
+			<p id="revisaoNome" class="modal-nome"></p>
+			<label for="inputDocumentoRevisao">Número do documento (com foto)</label>
+			<input type="text" id="inputDocumentoRevisao" inputmode="numeric" pattern="[0-9]*" autocomplete="off" />
+			<div class="modal-info">
+				<p id="revisaoData" class="modal-nascimento"></p>
+				<button type="button" id="btnTrocarData" class="btn-link">Trocar data</button>
+			</div>
+			<button id="btnConfirmarInscricao" disabled>Confirmar inscrição</button>
+			<p id="modalErroRevisao" class="modal-erro" hidden></p>
 		</div>
 
 		<div id="etapaSucesso" hidden>
