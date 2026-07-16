@@ -11,7 +11,7 @@
 }
 .top-nav a,
 .top-nav button {
-	background-color: #FF9800;
+	background-color: #2A4D8F;
 	color: white;
 	border: none;
 	display: inline-flex;
@@ -30,7 +30,7 @@
 .top-nav a:focus-visible,
 .top-nav button:hover,
 .top-nav button:focus-visible {
-	background-color: #ffb74d;
+	background-color: #3d63a8;
 	transform: translateY(-1px);
 	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
 }
@@ -40,7 +40,7 @@
 	outline-offset: 3px;
 }
 .top-nav .active {
-	background-color: #e57c00;
+	background-color: #1f3d78;
 }
 /* esconde o link da própria página no menu superior (ex: "Início" na index) */
 .top-nav a.active {
@@ -55,11 +55,43 @@
 	z-index: 150;
 	display: flex;
 	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.5rem;
+}
+.floating-main-btn {
+	width: 3.75rem;
+	height: 3.75rem;
+	border: none;
+	border-radius: 50%;
+	background: #2A4D8F;
+	color: #fff;
+	font-size: 1.5rem;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+	transition: transform 0.18s ease, background-color 0.18s ease;
+}
+.floating-main-btn:hover,
+.floating-main-btn:focus-visible {
+	background-color: #3d63a8;
+	transform: translateY(-2px);
+	outline: 3px solid rgba(255,255,255,0.85);
+	outline-offset: 3px;
+}
+.floating-menu {
+	display: none;
+	flex-direction: column;
 	gap: 0.5rem;
 	align-items: flex-end;
 }
+.floating-nav.is-open .floating-menu {
+	display: flex;
+}
+.floating-nav.is-open .floating-main-btn {
+	transform: rotate(90deg);
+}
 .floating-nav .floating-link {
-	background-color: #FF9800;
+	background-color: #2A4D8F;
 	color: #fff;
 	padding: 0.6rem 0.95rem;
 	font-size: 0.98rem;
@@ -73,7 +105,7 @@
 }
 .floating-nav .floating-link:hover,
 .floating-nav .floating-link:focus-visible {
-	background-color: #ffb74d;
+	background-color: #3d63a8;
 	transform: translateY(-2px);
 	outline: 3px solid rgba(255,255,255,0.85);
 	outline-offset: 3px;

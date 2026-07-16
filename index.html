@@ -14,12 +14,6 @@
 </head>
 <body>
     <header id="home">
-        <!-- Navegação principal -->
-		<nav class="top-nav" aria-label="Menu principal">
-			<a href="cadastro.html">Cadastro</a>
-			<a href="login.html">Login</a>
-			<a href="minha_caravana.html">Minha caravana</a>
-		</nav>
 		<!-- Imagem do cabeçalho + texto sobreposto (num wrapper próprio, pra não ficar atrás do menu) -->
 		<div class="header-hero">
 			<img src="img/onibus_com_templo.png" alt="Ônibus e templo" class="header-img" />
@@ -83,6 +77,7 @@
 				<h2>Precisa renovar sua recomendação?</h2>
 				<p>Agende sua entrevista de renovação com o secretário.</p>
 				<button id="btnAgendarEntrevista">Agendar minha entrevista</button>
+				<button id="btnCancelarEntrevista">Cancelar meu agendamento</button>
 			</div>
 		</section>
 
@@ -138,12 +133,15 @@
 		<div data-partial="partials/modal-video.html"></div>
 	</main>
 
-	<!-- Navegação flutuante para as páginas de cadastro/login/minha caravana -->
+	<!-- Navegação flutuante principal -->
 	<nav id="floating-nav" class="floating-nav" aria-label="Menu flutuante">
-		<a href="index.html" class="floating-link">Início</a>
-		<a href="cadastro.html" class="floating-link">Cadastro</a>
-		<a href="login.html" class="floating-link">Login</a>
-		<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
+		<button type="button" id="floatingMainButton" class="floating-main-btn" aria-label="Abrir navegação rápida" aria-expanded="false">☰</button>
+		<div id="floatingMenu" class="floating-menu" aria-hidden="true">
+			<a href="index.html" class="floating-link">Início</a>
+			<a href="cadastro.html" class="floating-link">Cadastro</a>
+			<a href="login.html" class="floating-link">Login</a>
+			<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
+		</div>
 	</nav>
 
 	<!-- Modal de dúvidas, carregado de partials/modal-duvidas.html -->
@@ -153,6 +151,28 @@
 	<footer class="site-footer">
 		<p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
 	</footer>
+
+	<script>
+		const floatingNav = document.getElementById('floating-nav');
+		const floatingMainButton = document.getElementById('floatingMainButton');
+		const floatingMenu = document.getElementById('floatingMenu');
+
+		if (floatingMainButton && floatingMenu) {
+			floatingMainButton.addEventListener('click', () => {
+				const isOpen = floatingNav.classList.toggle('is-open');
+				floatingMainButton.setAttribute('aria-expanded', String(isOpen));
+				floatingMenu.setAttribute('aria-hidden', String(!isOpen));
+			});
+
+			document.addEventListener('click', (event) => {
+				if (!floatingNav.contains(event.target)) {
+					floatingNav.classList.remove('is-open');
+					floatingMainButton.setAttribute('aria-expanded', 'false');
+					floatingMenu.setAttribute('aria-hidden', 'true');
+				}
+			});
+		}
+	</script>
 
 	<!-- Scripts (nesta ordem: config primeiro, partials carregam os modais, depois cada funcionalidade) -->
 	<script src="js/config.js" defer></script>

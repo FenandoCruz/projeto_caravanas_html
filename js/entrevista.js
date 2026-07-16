@@ -8,15 +8,21 @@ document.addEventListener('partials:prontos', () => {
 	const etapaDataEntrevista = document.getElementById('etapaDataEntrevista');
 	const etapaHorarioEntrevista = document.getElementById('etapaHorarioEntrevista');
 	const etapaConfirmarEntrevista = document.getElementById('etapaConfirmarEntrevista');
+	const etapaCancelarEntrevista = document.getElementById('etapaCancelarEntrevista');
 	const erroDataEntrevista = document.getElementById('erroDataEntrevista');
 	const selectHorarioEntrevista = document.getElementById('selectHorarioEntrevista');
 	const previewMensagemEntrevista = document.getElementById('previewMensagemEntrevista');
+	const inputDataCancelamento = document.getElementById('inputDataCancelamento');
+	const selectHorarioCancelamento = document.getElementById('selectHorarioCancelamento');
+	const motivoCancelamento = document.getElementById('motivoCancelamento');
+	const previewMensagemCancelamento = document.getElementById('previewMensagemCancelamento');
 
 	const calMesAno = document.getElementById('calMesAno');
 	const calGrade = document.getElementById('calGrade');
 	const calMesAnterior = document.getElementById('calMesAnterior');
 	const calProximoMes = document.getElementById('calProximoMes');
 
+	const ocupadosPorData = new Map();
 	let dataEntrevistaSelecionada = '';
 	let horarioEntrevistaSelecionado = '';
 	let calAno, calMes;
@@ -27,6 +33,62 @@ document.addEventListener('partials:prontos', () => {
 		const m = String(data.getMonth() + 1).padStart(2, '0');
 		const d = String(data.getDate()).padStart(2, '0');
 		return `${y}-${m}-${d}`;
+	}
+
+	async function carregarDisponibilidade() {
+		try {
+			const response = await fetch(`${SCRIPT_URL}?action=disponibilidade`);
+			const payload = await response.json();
+			if (!payload.ok) {
+				throw new Error(payload.error || 'Não foi possível carregar a disponibilidade.');
+			}
+
+			ocupadosPorData.clear();
+			payload.ocupados.forEach(({ data, hora }) => {
+				const dataKey = String(data).trim();
+				if (!ocupadosPorData.has(dataKey)) {
+					ocupadosPorData.set(dataKey, new Set());
+				}
+				ocupadosPorData.get(dataKey).add(String(hora).trim());
+			});
+		} catch (error) {
+			console.error('Erro ao carregar disponibilidade:', error);
+			window.alert('Não foi possível carregar os horários disponíveis no momento. Tente novamente mais tarde.');
+		}
+	}
+
+	function horariosDisponiveisParaData(dataISO) {
+		const ocupados = ocupadosPorData.get(dataISO) || new Set();
+		return ['19:00', '19:30', '20:00', '20:30', '21:00'].filter(hora => !ocupados.has(hora));
+	}
+
+	function dataTemDisponibilidade(dataISO) {
+		const disponiveis = horariosDisponiveisParaData(dataISO);
+		return disponiveis.length > 0;
+	}
+
+	function renderHorariosDisponiveis() {
+		selectHorarioEntrevista.innerHTML = '';
+		const disponiveis = horariosDisponiveisParaData(dataSelecionadaISO);
+
+		if (disponiveis.length === 0) {
+			const option = document.createElement('option');
+			option.value = '';
+			option.textContent = 'Nenhum horário disponível';
+			option.disabled = true;
+			option.selected = true;
+			selectHorarioEntrevista.appendChild(option);
+			selectHorarioEntrevista.disabled = true;
+			return;
+		}
+
+		disponiveis.forEach(hora => {
+			const option = document.createElement('option');
+			option.value = hora;
+			option.textContent = hora;
+			selectHorarioEntrevista.appendChild(option);
+		});
+		selectHorarioEntrevista.disabled = false;
 	}
 
 	function iniciarCalendario() {
@@ -68,7 +130,7 @@ document.addEventListener('partials:prontos', () => {
 			const passado = data < hoje;
 			const diaPermitido = DIAS_PERMITIDOS.includes(data.getDay());
 
-			if (passado || !diaPermitido) {
+			if (passado || !diaPermitido || !dataTemDisponibilidade(iso)) {
 				btn.classList.add('cal-dia-desabilitado');
 				btn.disabled = true;
 			} else {
@@ -106,7 +168,8 @@ document.addEventListener('partials:prontos', () => {
 		renderCalendario();
 	});
 
-	function abrirModalEntrevista() {
+	async function abrirModalEntrevista() {
+		await carregarDisponibilidade();
 		etapaDataEntrevista.hidden = false;
 		etapaHorarioEntrevista.hidden = true;
 		etapaConfirmarEntrevista.hidden = true;
@@ -121,6 +184,17 @@ document.addEventListener('partials:prontos', () => {
 	}
 
 	document.getElementById('btnAgendarEntrevista')?.addEventListener('click', abrirModalEntrevista);
+	document.getElementById('btnCancelarEntrevista')?.addEventListener('click', () => {
+		etapaDataEntrevista.hidden = true;
+		etapaHorarioEntrevista.hidden = true;
+		etapaConfirmarEntrevista.hidden = true;
+		etapaCancelarEntrevista.hidden = false;
+		inputDataCancelamento.value = '';
+		selectHorarioCancelamento.selectedIndex = 0;
+		motivoCancelamento.value = '';
+		previewMensagemCancelamento.textContent = '';
+		modalEntrevista.hidden = false;
+	});
 	document.getElementById('btnFecharModalEntrevistaX')?.addEventListener('click', fecharModalEntrevista);
 
 	document.getElementById('btnProximoData')?.addEventListener('click', () => {
@@ -130,6 +204,13 @@ document.addEventListener('partials:prontos', () => {
 			return;
 		}
 
+		if (!dataTemDisponibilidade(dataSelecionadaISO)) {
+			erroDataEntrevista.hidden = false;
+			erroDataEntrevista.textContent = 'Esse dia já está totalmente ocupado. Escolha outro.';
+			return;
+		}
+
+		renderHorariosDisponiveis();
 		etapaDataEntrevista.hidden = true;
 		etapaHorarioEntrevista.hidden = false;
 	});
@@ -143,10 +224,68 @@ document.addEventListener('partials:prontos', () => {
 		etapaConfirmarEntrevista.hidden = false;
 	});
 
-	document.getElementById('btnEnviarEntrevistaWhatsapp')?.addEventListener('click', () => {
+	document.getElementById('btnEnviarEntrevistaWhatsapp')?.addEventListener('click', async () => {
 		const mensagem = `Olá, tudo bem? Pode marcar minha entrevista de renovação de recomendação para o dia ${dataEntrevistaSelecionada} às ${horarioEntrevistaSelecionado}?`;
-		const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
-		window.open(url, '_blank');
-		fecharModalEntrevista();
+		try {
+			const response = await fetch(SCRIPT_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					action: 'agendar-entrevista',
+					data: dataSelecionadaISO,
+					hora: horarioEntrevistaSelecionado,
+					mensagem
+				})
+			});
+			const payload = await response.json();
+			if (!payload.ok || !payload.url) {
+				throw new Error(payload.error || 'Não foi possível abrir o WhatsApp.');
+			}
+			window.open(payload.url, '_blank', 'noopener');
+			await carregarDisponibilidade();
+		} catch (error) {
+			console.error('Erro ao agendar entrevista:', error);
+			window.alert(error.message || 'Não foi possível concluir o agendamento agora. Tente novamente em instantes.');
+		} finally {
+			fecharModalEntrevista();
+		}
+	});
+
+	document.getElementById('btnConfirmarCancelamento')?.addEventListener('click', async () => {
+		const dataCancelamento = inputDataCancelamento.value;
+		const horaCancelamento = selectHorarioCancelamento.value;
+		const motivo = motivoCancelamento.value.trim();
+		if (!dataCancelamento || !horaCancelamento || !motivo) {
+			window.alert('Informe a data, o horário e a justificativa para o cancelamento.');
+			return;
+		}
+
+		const mensagem = `Olá, tudo bem? Gostaria de cancelar a minha entrevista de renovação de recomendação marcada para o dia ${dataCancelamento} às ${horaCancelamento}. Justificativa: ${motivo}`;
+		previewMensagemCancelamento.textContent = `"${mensagem}"`;
+
+		try {
+			const response = await fetch(SCRIPT_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					action: 'cancelar-entrevista',
+					data: dataCancelamento,
+					hora: horaCancelamento,
+					motivo,
+					mensagem
+				})
+			});
+			const payload = await response.json();
+			if (!payload.ok || !payload.url) {
+				throw new Error(payload.error || 'Não foi possível abrir o WhatsApp para cancelamento.');
+			}
+			window.open(payload.url, '_blank', 'noopener');
+			await carregarDisponibilidade();
+		} catch (error) {
+			console.error('Erro ao cancelar entrevista:', error);
+			window.alert(error.message || 'Não foi possível cancelar o agendamento agora.');
+		} finally {
+			fecharModalEntrevista();
+		}
 	});
 });

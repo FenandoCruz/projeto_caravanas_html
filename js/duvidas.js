@@ -37,10 +37,24 @@ document.addEventListener('partials:prontos', () => {
 		});
 	});
 
-	document.getElementById('btnEnviarDuvidaWhatsapp')?.addEventListener('click', () => {
+	document.getElementById('btnEnviarDuvidaWhatsapp')?.addEventListener('click', async () => {
 		const mensagem = `Olá, tenho dúvidas sobre ${assuntoSelecionado} - pode me ajudar com isso?`;
-		const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
-		window.open(url, '_blank');
-		fecharModalDuvidas();
+		try {
+			const response = await fetch(SCRIPT_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ action: 'whatsapp-duvida', mensagem })
+			});
+			const payload = await response.json();
+			if (!payload.ok || !payload.url) {
+				throw new Error(payload.error || 'Não foi possível abrir o WhatsApp.');
+			}
+			window.open(payload.url, '_blank', 'noopener');
+		} catch (error) {
+			console.error('Erro ao abrir WhatsApp:', error);
+			window.alert('Não foi possível abrir o WhatsApp agora. Tente novamente em instantes.');
+		} finally {
+			fecharModalDuvidas();
+		}
 	});
 });

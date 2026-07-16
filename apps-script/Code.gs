@@ -4,8 +4,21 @@ const RESPOSTAS_HEADER_ROW = 3;        // linha onde estão os títulos "Nome co
 const MAX_RESULTS = 8;
 const MIN_QUERY_LEN = 3;
 const EMAIL_NOTIFICACAO = 'telesthierry@gmail.com'; // recebe um e-mail a cada nova inscrição
+const NUMERO_WHATSAPP = '5527996302669';
+const AGENDAMENTOS_SHEET = 'Agendamentos';
+const HORARIOS_ENTREVISTA = ['19:00', '19:30', '20:00', '20:30', '21:00'];
 
 function doGet(e) {
+  const action = ((e && e.parameter && e.parameter.action) || '').trim();
+
+  if (action === 'disponibilidade') {
+    const ocupados = getAgendamentos_().map(agendamento => ({
+      data: agendamento.data,
+      hora: agendamento.hora
+    }));
+    return jsonResponse({ ok: true, ocupados, horarios: HORARIOS_ENTREVISTA });
+  }
+
   // se "e" vier undefined (ex: rodando pelo botão "Executar" do editor, sem
   // requisição real por trás), trata como busca vazia em vez de quebrar
   const query = ((e && e.parameter && e.parameter.nome) || '').trim();
@@ -25,7 +38,92 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    const body = JSON.parse(e.postData.contents);
+    const rawBody = e && e.postData && e.postData.contents ? e.postData.contents : '{}';
+    let body;
+
+    try {
+      body = JSON.parse(rawBody);
+    } catch (err) {
+      return jsonResponse({ ok: false, error: 'Corpo da requisição inválido.' });
+    }
+
+    const action = String(body.action || '').trim();
+    const allowedActions = new Set(['whatsapp-duvida', 'whatsapp-entrevista', 'agendar-entrevista', 'inscricao']);
+
+    if (!allowedActions.has(action)) {
+      return jsonResponse({ ok: false, error: 'Ação não permitida.' });
+    }
+
+    if (action === 'whatsapp-duvida' || action === 'whatsapp-entrevista') {
+      const mensagem = String(body.mensagem || '').trim();
+      if (!mensagem) {
+        return jsonResponse({ ok: false, error: 'Mensagem do WhatsApp é obrigatória.' });
+      }
+
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+      return jsonResponse({ ok: true, url });
+    }
+
+    if (action === 'cancelar-entrevista') {
+      const data = String(body.data || '').trim();
+      const hora = String(body.hora || '').trim();
+      const motivo = String(body.motivo || '').trim();
+      const mensagem = String(body.mensagem || '').trim();
+
+      if (!data || !hora || !motivo || !mensagem) {
+        return jsonResponse({ ok: false, error: 'Data, horário, justificativa e mensagem são obrigatórios.' });
+      }
+
+      const dataHoraAgendamento = new Date(`${data}T${hora}:00`);
+      const diffHoras = (dataHoraAgendamento.getTime() - Date.now()) / (1000 * 60 * 60);
+      if (diffHoras < 24) {
+        return jsonResponse({ ok: false, error: 'O cancelamento deve ser solicitado com antecedência mínima de 24 horas.' });
+      }
+
+      const agendamentos = getAgendamentos_();
+      const reservado = agendamentos.some(item => item.data === data && item.hora === hora && item.status !== 'cancelado');
+      if (!reservado) {
+        return jsonResponse({ ok: false, error: 'Nenhum agendamento encontrado para essa data e horário.' });
+      }
+
+      const sheet = getAgendaSheet_();
+      const rows = sheet.getDataRange().getValues();
+      const rowIndex = rows.findIndex(row => String(row[0] || '').trim() === data && String(row[1] || '').trim() === hora);
+      if (rowIndex >= 0) {
+        sheet.getRange(rowIndex + 1, 3, 1, 1).setValue('cancelado');
+        sheet.getRange(rowIndex + 1, 4, 1, 1).setValue(new Date().toISOString());
+      }
+
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+      return jsonResponse({ ok: true, url, data, hora, motivo });
+    }
+
+    if (action === 'agendar-entrevista') {
+      const data = String(body.data || '').trim();
+      const hora = String(body.hora || '').trim();
+      const mensagem = String(body.mensagem || '').trim();
+
+      if (!data || !hora || !mensagem) {
+        return jsonResponse({ ok: false, error: 'Data, horário e mensagem são obrigatórios.' });
+      }
+
+      if (!HORARIOS_ENTREVISTA.includes(hora)) {
+        return jsonResponse({ ok: false, error: 'Horário selecionado é inválido.' });
+      }
+
+      const agendamentos = getAgendamentos_();
+      const jaExiste = agendamentos.some(item => item.data === data && item.hora === hora);
+      if (jaExiste) {
+        return jsonResponse({ ok: false, error: 'Esse horário já está ocupado. Escolha outro dia ou horário.' });
+      }
+
+      const sheet = getAgendaSheet_();
+      sheet.appendRow([data, hora, 'reservado', new Date().toISOString()]);
+
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+      return jsonResponse({ ok: true, url, data, hora });
+    }
+
     const nome = (body.nome || '').trim();
     const documento = (body.documento || '').trim();
 
@@ -123,6 +221,37 @@ function montarEmailHtml_(nome, documento) {
       </table>
     </div>
   `;
+}
+
+function getAgendaSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(AGENDAMENTOS_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(AGENDAMENTOS_SHEET);
+  }
+
+  const header = sheet.getRange(1, 1, 1, 4).getValues()[0];
+  if (!header[0] || String(header[0]).trim() !== 'data') {
+    sheet.getRange(1, 1, 1, 4).setValues([['data', 'hora', 'status', 'criadoEm']]);
+  }
+
+  return sheet;
+}
+
+function getAgendamentos_() {
+  const sheet = getAgendaSheet_();
+  const rows = sheet.getDataRange().getValues();
+  const [header, ...dataRows] = rows;
+  if (!header || !header[0] || String(header[0]).trim() !== 'data') return [];
+
+  return dataRows
+    .filter(row => row[0] && row[1])
+    .map(row => ({
+      data: String(row[0]).trim(),
+      hora: String(row[1]).trim(),
+      status: String(row[2] || '').trim(),
+      criadoEm: row[3] || ''
+    }));
 }
 
 function getMembros_() {

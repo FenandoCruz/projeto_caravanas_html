@@ -96,7 +96,7 @@ main {
 
 /* Botões de ação */
 button {
-	background-color: #FF9800;
+	background-color: #2A4D8F;
 	color: white;
 	border: none;
 	padding: 0.75rem 1.5rem;
@@ -108,7 +108,7 @@ button {
 	transition: background-color 0.15s ease, transform 0.1s ease;
 }
 button:hover {
-	background-color: #e08600;
+	background-color: #3d63a8;
 }
 button:active {
 	transform: scale(0.98);
