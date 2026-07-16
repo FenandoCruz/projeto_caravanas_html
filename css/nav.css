@@ -33,9 +33,15 @@
 	outline: 3px solid rgba(42, 77, 143, 0.4);
 	outline-offset: 3px;
 }
-/* esconde o link da própria página no menu superior (ex: "Início" na index) */
+/* destaca o link da página atual no menu superior (ex: "Início" na index) */
 .top-nav a.active {
-	display: none;
+	background-color: #2A4D8F;
+	color: #fff;
+	box-shadow: 0 4px 14px rgba(42, 77, 143, 0.35);
+}
+.top-nav a.active:hover,
+.top-nav a.active:focus-visible {
+	background-color: #2A4D8F;
 }
 /* páginas ainda sem função real (protótipo visual) ficam com visual apagado */
 .top-nav a.stub {
@@ -47,6 +53,11 @@
 .top-nav a.stub:hover {
 	background-color: transparent;
 	border-color: #c3d0e0;
+}
+/* links escondidos via JS (auth.js) -- precisa sobrescrever o display do link */
+.top-nav a[hidden],
+.floating-link[hidden] {
+	display: none;
 }
 
 /* Menu flutuante no canto inferior direito (FAB: bolinha "+" que expande) */

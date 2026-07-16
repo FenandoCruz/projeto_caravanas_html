@@ -11,8 +11,7 @@
     <header>
         <nav class="top-nav" aria-label="Menu principal">
             <a href="index.html">Início</a>
-            <a href="cadastro.html" class="active">Cadastro</a>
-            <a href="login.html" class="stub">Login</a>
+            <a href="login.html">Login</a>
             <a href="minha_caravana.html">Minha caravana</a>
         </nav>
         <div class="page-hero">
@@ -23,18 +22,18 @@
     <main class="form-page">
         <section class="form-card">
             <h2>Preencha seus dados</h2>
-            <form>
+            <form id="formCadastro">
                 <label>Nome completo
-                    <input type="text" placeholder="Seu nome completo" />
+                    <input type="text" id="inputCadastroNome" placeholder="Seu nome completo" required />
                 </label>
                 <label>E-mail
-                    <input type="email" placeholder="seu@email.com" />
+                    <input type="email" id="inputCadastroEmail" placeholder="seu@email.com" required />
                 </label>
                 <label>Senha
-                    <input type="password" placeholder="Crie uma senha" />
+                    <input type="password" id="inputCadastroSenha" placeholder="Crie uma senha" required />
                 </label>
                 <label>Confirmar senha
-                    <input type="password" placeholder="Digite a mesma senha" />
+                    <input type="password" id="inputCadastroConfirmarSenha" placeholder="Digite a mesma senha" required />
                 </label>
                 <button type="submit">Cadastrar</button>
             </form>
@@ -44,5 +43,7 @@
     <footer class="site-footer">
         <p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
     </footer>
+    <script src="js/auth.js" defer></script>
+    <script src="js/cadastro.js" defer></script>
 </body>
 </html>

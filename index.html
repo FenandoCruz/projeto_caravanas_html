@@ -16,8 +16,8 @@
     <header id="home">
         <!-- Navegação principal -->
 		<nav class="top-nav" aria-label="Menu principal">
-			<a href="cadastro.html" class="stub">Cadastro</a>
-			<a href="login.html" class="stub">Login</a>
+			<a href="index.html" class="active">Início</a>
+			<a href="login.html">Login</a>
 			<a href="minha_caravana.html">Minha caravana</a>
 		</nav>
 		<!-- Imagem do cabeçalho + texto sobreposto (num wrapper próprio, pra não ficar atrás do menu) -->
@@ -142,8 +142,7 @@
 	<div class="floating-nav">
 		<div id="fabLinks" class="floating-nav-links" hidden>
 			<a href="minha_caravana.html" class="floating-link">Minha caravana</a>
-			<a href="cadastro.html" class="floating-link stub">Cadastro</a>
-			<a href="login.html" class="floating-link stub">Login</a>
+			<a href="login.html" class="floating-link">Login</a>
 		</div>
 		<button type="button" id="fabToggle" class="fab-toggle" aria-label="Abrir menu" aria-expanded="false">＋</button>
 	</div>
@@ -158,6 +157,7 @@
 
 	<!-- Scripts (nesta ordem: config primeiro, partials carregam os modais, depois cada funcionalidade) -->
 	<script src="js/config.js" defer></script>
+	<script src="js/auth.js" defer></script>
 	<script src="js/nav.js" defer></script>
 	<script src="js/partials.js" defer></script>
 	<script src="js/video.js" defer></script>
