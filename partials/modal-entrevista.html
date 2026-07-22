@@ -17,8 +17,7 @@
 				</div>
 				<div class="calendario-grade" id="calGrade"></div>
 			</div>
-			<p id="erroDataEntrevista" class="modal-erro" hidden></p>
-			<button id="btnProximoData">Próximo</button>
+			<button id="btnProximoData" disabled>Próximo</button>
 		</div>
 
 		<div id="etapaHorarioEntrevista" hidden>
@@ -40,27 +39,6 @@
 			<p id="previewMensagemEntrevista" class="modal-nome"></p>
 			<div class="modal-botoes">
 				<button id="btnEnviarEntrevistaWhatsapp">Enviar no WhatsApp</button>
-			</div>
-		</div>
-
-		<div id="etapaCancelarEntrevista" hidden>
-			<h3>Cancelar entrevista</h3>
-			<p class="modal-nascimento">O cancelamento só pode ser realizado com 24 horas de antecedência.</p>
-			<label for="inputDataCancelamento">Data da entrevista</label>
-			<input id="inputDataCancelamento" type="date" />
-			<label for="selectHorarioCancelamento">Horário</label>
-			<select id="selectHorarioCancelamento">
-				<option value="19:00">19:00</option>
-				<option value="19:30">19:30</option>
-				<option value="20:00">20:00</option>
-				<option value="20:30">20:30</option>
-				<option value="21:00">21:00</option>
-			</select>
-			<label for="motivoCancelamento">Justificativa do cancelamento</label>
-			<textarea id="motivoCancelamento" rows="4" placeholder="Informe o motivo do cancelamento"></textarea>
-			<p id="previewMensagemCancelamento" class="modal-nome"></p>
-			<div class="modal-botoes">
-				<button id="btnConfirmarCancelamento">Solicitar cancelamento</button>
 			</div>
 		</div>
 	</div>

@@ -11,7 +11,6 @@
     <header>
         <nav class="top-nav" aria-label="Menu principal">
             <a href="index.html">Início</a>
-            <a href="cadastro.html">Cadastro</a>
             <a href="login.html" class="active">Login</a>
             <a href="minha_caravana.html">Minha caravana</a>
         </nav>
@@ -23,12 +22,12 @@
     <main class="form-page">
         <section class="form-card">
             <h2>Entrar na sua conta</h2>
-            <form>
+            <form id="formLogin">
                 <label>E-mail
-                    <input type="email" placeholder="seu@email.com" />
+                    <input type="email" id="inputLoginEmail" placeholder="seu@email.com" required />
                 </label>
                 <label>Senha
-                    <input type="password" placeholder="Sua senha" />
+                    <input type="password" id="inputLoginSenha" placeholder="Sua senha" required />
                 </label>
                 <button type="submit">Entrar</button>
             </form>
@@ -38,5 +37,7 @@
     <footer class="site-footer">
         <p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
     </footer>
+    <script src="js/auth.js" defer></script>
+    <script src="js/login.js" defer></script>
 </body>
 </html>

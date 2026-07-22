@@ -11,7 +11,6 @@
     <header>
         <nav class="top-nav" aria-label="Menu principal">
             <a href="index.html">Início</a>
-            <a href="cadastro.html">Cadastro</a>
             <a href="login.html">Login</a>
             <a href="minha_caravana.html" class="active">Minha caravana</a>
         </nav>
@@ -21,17 +20,58 @@
         </div>
     </header>
     <main class="gallery-page">
+        <div class="status-legend">
+            <span><span class="status-dot disponivel"></span>Disponível</span>
+            <span><span class="status-dot em-breve"></span>Em breve</span>
+            <span><span class="status-dot encerrada"></span>Encerrada</span>
+        </div>
         <section class="temple-gallery">
             <article class="temple-card rio">
                 <div class="temple-content">
                     <span class="temple-title">Rio de Janeiro</span>
                     <ul class="schedule-list">
-                        <li>Ala Cobilândia: 27 e 28 de Novembro de 2026</li>
-                        <li>Alas Cobilândia, Vila Velha e Anchieta: 30 e 31 de Outubro de 2026</li>
-                        <li>Ala Itaparica: 18 e 19 de Setembro de 2026</li>
-                        <li>Ala Guarapari: 26 e 27 de Junho de 2026</li>
-                        <li>Ala Vila Velha: 27 e 28 de Março de 2026</li>
-                        <li>Alas Itapuã e Riviera da Barra: 28 e 29 de Agosto de 2026</li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Ala Vila Velha</div>
+                                <div class="schedule-range">27 e 28 de março de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-03-28">Disponível</span>
+                        </li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Ala Guarapari</div>
+                                <div class="schedule-range">26 e 27 de junho de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-06-27">Disponível</span>
+                        </li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Alas Itapuã e Riviera da Barra</div>
+                                <div class="schedule-range">28 e 29 de agosto de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-08-29">Disponível</span>
+                        </li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Ala Itaparica</div>
+                                <div class="schedule-range">18 e 19 de setembro de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-09-19">Disponível</span>
+                        </li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Alas Cobilândia, Vila Velha e Anchieta</div>
+                                <div class="schedule-range">30 e 31 de outubro de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-10-31">Disponível</span>
+                        </li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Ala Cobilândia</div>
+                                <div class="schedule-range">27 e 28 de novembro de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-11-28">Disponível</span>
+                        </li>
                     </ul>
                 </div>
             </article>
@@ -39,18 +79,29 @@
                 <div class="temple-content">
                     <span class="temple-title">Belo Horizonte</span>
                     <ul class="schedule-list">
-                        <li>Estaca Vila Velha: 20 a 25 de Julho de 2026</li>
-                        <li>Estaca Vila Velha: 14 a 19 de Dezembro de 2026</li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Estaca Vila Velha</div>
+                                <div class="schedule-range">20 a 25 de julho de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-07-25">Disponível</span>
+                        </li>
+                        <li>
+                            <div>
+                                <div class="schedule-label">Estaca Vila Velha</div>
+                                <div class="schedule-range">14 a 19 de dezembro de 2026</div>
+                            </div>
+                            <span class="schedule-badge disponivel" data-fim="2026-12-19">Disponível</span>
+                        </li>
                     </ul>
                 </div>
             </article>
-        </section>
-        <section class="image-notes">
-            <p>As imagens dos templos devem estar na pasta <code>img</code> com os nomes <strong>belo_horizonte</strong> e <strong>rio_de_janeiro</strong>.</p>
         </section>
     </main>
     <footer class="site-footer">
         <p>© 2026 Caravanas SUD — Todos os direitos reservados</p>
     </footer>
+    <script src="js/auth.js" defer></script>
+    <script src="js/minha-caravana.js" defer></script>
 </body>
 </html>

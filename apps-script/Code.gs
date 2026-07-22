@@ -1,27 +1,21 @@
 const MEMBROS_SHEET = 'Membros';       // aba privada com a lista importada do PDF (Nome completo, Sexo, Idade, Data de Nascimento, Telefone, Email)
-const RESPOSTAS_SHEET = 'Sheet1';      // aba onde ficam "Nome completo" / "Número do documento ( com foto )" (a que já existe)
-const RESPOSTAS_HEADER_ROW = 3;        // linha onde estão os títulos "Nome completo" | "Número do documento..."
+const RESPOSTAS_SHEET = 'Nomes';       // aba onde ficam "Nome completo" / "Número do documento ( com foto )" / "Data da caravana" (a que já existe, ex-"Sheet1")
+const RESPOSTAS_HEADER_ROW = 3;        // linha onde estão os títulos "Nome completo" | "Número do documento..." | "Data da caravana"
+const DATAS_SHEET = 'Datas';           // aba com as datas de caravana disponíveis (colunas "Data" e "Disponibilidade")
 const MAX_RESULTS = 8;
 const MIN_QUERY_LEN = 3;
 const EMAIL_NOTIFICACAO = 'telesthierry@gmail.com'; // recebe um e-mail a cada nova inscrição
-const NUMERO_WHATSAPP = '5527996302669';
-const AGENDAMENTOS_SHEET = 'Agendamentos';
-const HORARIOS_ENTREVISTA = ['19:00', '19:30', '20:00', '20:30', '21:00'];
 
 function doGet(e) {
-  const action = ((e && e.parameter && e.parameter.action) || '').trim();
+  const parametro = (e && e.parameter) || {};
 
-  if (action === 'disponibilidade') {
-    const ocupados = getAgendamentos_().map(agendamento => ({
-      data: agendamento.data,
-      hora: agendamento.hora
-    }));
-    return jsonResponse({ ok: true, ocupados, horarios: HORARIOS_ENTREVISTA });
+  if (parametro.action === 'datas') {
+    return jsonResponse({ ok: true, datas: getDatasDisponiveis_() });
   }
 
   // se "e" vier undefined (ex: rodando pelo botão "Executar" do editor, sem
   // requisição real por trás), trata como busca vazia em vez de quebrar
-  const query = ((e && e.parameter && e.parameter.nome) || '').trim();
+  const query = (parametro.nome || '').trim();
   if (query.length < MIN_QUERY_LEN) {
     return jsonResponse({ ok: true, results: [] });
   }
@@ -38,97 +32,13 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    const rawBody = e && e.postData && e.postData.contents ? e.postData.contents : '{}';
-    let body;
-
-    try {
-      body = JSON.parse(rawBody);
-    } catch (err) {
-      return jsonResponse({ ok: false, error: 'Corpo da requisição inválido.' });
-    }
-
-    const action = String(body.action || '').trim();
-    const allowedActions = new Set(['whatsapp-duvida', 'whatsapp-entrevista', 'agendar-entrevista', 'inscricao']);
-
-    if (!allowedActions.has(action)) {
-      return jsonResponse({ ok: false, error: 'Ação não permitida.' });
-    }
-
-    if (action === 'whatsapp-duvida' || action === 'whatsapp-entrevista') {
-      const mensagem = String(body.mensagem || '').trim();
-      if (!mensagem) {
-        return jsonResponse({ ok: false, error: 'Mensagem do WhatsApp é obrigatória.' });
-      }
-
-      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
-      return jsonResponse({ ok: true, url });
-    }
-
-    if (action === 'cancelar-entrevista') {
-      const data = String(body.data || '').trim();
-      const hora = String(body.hora || '').trim();
-      const motivo = String(body.motivo || '').trim();
-      const mensagem = String(body.mensagem || '').trim();
-
-      if (!data || !hora || !motivo || !mensagem) {
-        return jsonResponse({ ok: false, error: 'Data, horário, justificativa e mensagem são obrigatórios.' });
-      }
-
-      const dataHoraAgendamento = new Date(`${data}T${hora}:00`);
-      const diffHoras = (dataHoraAgendamento.getTime() - Date.now()) / (1000 * 60 * 60);
-      if (diffHoras < 24) {
-        return jsonResponse({ ok: false, error: 'O cancelamento deve ser solicitado com antecedência mínima de 24 horas.' });
-      }
-
-      const agendamentos = getAgendamentos_();
-      const reservado = agendamentos.some(item => item.data === data && item.hora === hora && item.status !== 'cancelado');
-      if (!reservado) {
-        return jsonResponse({ ok: false, error: 'Nenhum agendamento encontrado para essa data e horário.' });
-      }
-
-      const sheet = getAgendaSheet_();
-      const rows = sheet.getDataRange().getValues();
-      const rowIndex = rows.findIndex(row => String(row[0] || '').trim() === data && String(row[1] || '').trim() === hora);
-      if (rowIndex >= 0) {
-        sheet.getRange(rowIndex + 1, 3, 1, 1).setValue('cancelado');
-        sheet.getRange(rowIndex + 1, 4, 1, 1).setValue(new Date().toISOString());
-      }
-
-      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
-      return jsonResponse({ ok: true, url, data, hora, motivo });
-    }
-
-    if (action === 'agendar-entrevista') {
-      const data = String(body.data || '').trim();
-      const hora = String(body.hora || '').trim();
-      const mensagem = String(body.mensagem || '').trim();
-
-      if (!data || !hora || !mensagem) {
-        return jsonResponse({ ok: false, error: 'Data, horário e mensagem são obrigatórios.' });
-      }
-
-      if (!HORARIOS_ENTREVISTA.includes(hora)) {
-        return jsonResponse({ ok: false, error: 'Horário selecionado é inválido.' });
-      }
-
-      const agendamentos = getAgendamentos_();
-      const jaExiste = agendamentos.some(item => item.data === data && item.hora === hora);
-      if (jaExiste) {
-        return jsonResponse({ ok: false, error: 'Esse horário já está ocupado. Escolha outro dia ou horário.' });
-      }
-
-      const sheet = getAgendaSheet_();
-      sheet.appendRow([data, hora, 'reservado', new Date().toISOString()]);
-
-      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
-      return jsonResponse({ ok: true, url, data, hora });
-    }
-
+    const body = JSON.parse(e.postData.contents);
     const nome = (body.nome || '').trim();
     const documento = (body.documento || '').trim();
+    const data = (body.data || '').trim();
 
-    if (!nome || !documento) {
-      return jsonResponse({ ok: false, error: 'Nome e número do documento são obrigatórios.' });
+    if (!nome || !documento || !data) {
+      return jsonResponse({ ok: false, error: 'Nome, número do documento e data da caravana são obrigatórios.' });
     }
 
     const membros = getMembros_();
@@ -154,17 +64,34 @@ function doPost(e) {
       }
     }
 
-    sheet.getRange(lastRow + 1, 1, 1, 3).setValues([[nome, documento, new Date()]]);
-    notificarNovaInscricao_(nome, documento);
+    sheet.getRange(lastRow + 1, 1, 1, 4).setValues([[nome, documento, data, new Date()]]);
+    notificarNovaInscricao_(nome, documento, data);
     return jsonResponse({ ok: true });
   } catch (err) {
     return jsonResponse({ ok: false, error: 'Erro ao processar inscrição: ' + err.message });
   }
 }
 
+// Lê a aba "Datas" (colunas "Data" e "Disponibilidade") e retorna só as datas
+// marcadas com "sim", já formatadas pra exibir na lista de escolha.
+function getDatasDisponiveis_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DATAS_SHEET);
+  if (!sheet) return [];
+
+  const values = sheet.getDataRange().getValues();
+  const [header, ...rows] = values;
+  const idxData = header.indexOf('Data');
+  const idxDisponibilidade = header.indexOf('Disponibilidade');
+  if (idxData < 0 || idxDisponibilidade < 0) return [];
+
+  return rows
+    .filter(r => r[idxData] && normalize_(String(r[idxDisponibilidade])) === 'sim')
+    .map(r => formatarData_(r[idxData]));
+}
+
 // Avisa por e-mail a cada nova inscrição. Envolvido em try/catch pra nunca
 // travar a inscrição da pessoa por causa de um problema no envio do e-mail.
-function notificarNovaInscricao_(nome, documento) {
+function notificarNovaInscricao_(nome, documento, data) {
   if (!EMAIL_NOTIFICACAO) return;
   try {
     MailApp.sendEmail({
@@ -172,8 +99,9 @@ function notificarNovaInscricao_(nome, documento) {
       subject: `${nome} fez uma inscrição para a caravana`,
       body: `${nome} fez uma inscrição para a caravana.\n\n` +
         `Documento informado: ${documento}\n` +
+        `Data da caravana: ${data}\n` +
         `Data/hora: ${new Date().toLocaleString('pt-BR')}`,
-      htmlBody: montarEmailHtml_(nome, documento)
+      htmlBody: montarEmailHtml_(nome, documento, data)
     });
   } catch (err) {
     // a inscrição já foi gravada com sucesso; só registra o erro do e-mail no log
@@ -183,7 +111,7 @@ function notificarNovaInscricao_(nome, documento) {
 }
 
 // Template do e-mail com a cara do site (azul/laranja) + botão pra abrir a planilha
-function montarEmailHtml_(nome, documento) {
+function montarEmailHtml_(nome, documento, data) {
   const dataHora = new Date().toLocaleString('pt-BR');
   const linkPlanilha = SpreadsheetApp.getActiveSpreadsheet().getUrl();
 
@@ -205,7 +133,11 @@ function montarEmailHtml_(nome, documento) {
                 <td style="padding:0.4rem 0; color:#333; font-size:0.95rem; text-align:right;">${documento}</td>
               </tr>
               <tr>
-                <td style="padding:0.4rem 0; color:#555; font-size:0.95rem;">Data/hora</td>
+                <td style="padding:0.4rem 0; color:#555; font-size:0.95rem;">Data da caravana</td>
+                <td style="padding:0.4rem 0; color:#333; font-size:0.95rem; text-align:right;">${data}</td>
+              </tr>
+              <tr>
+                <td style="padding:0.4rem 0; color:#555; font-size:0.95rem;">Data/hora do envio</td>
                 <td style="padding:0.4rem 0; color:#333; font-size:0.95rem; text-align:right;">${dataHora}</td>
               </tr>
             </table>
@@ -221,37 +153,6 @@ function montarEmailHtml_(nome, documento) {
       </table>
     </div>
   `;
-}
-
-function getAgendaSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(AGENDAMENTOS_SHEET);
-  if (!sheet) {
-    sheet = ss.insertSheet(AGENDAMENTOS_SHEET);
-  }
-
-  const header = sheet.getRange(1, 1, 1, 4).getValues()[0];
-  if (!header[0] || String(header[0]).trim() !== 'data') {
-    sheet.getRange(1, 1, 1, 4).setValues([['data', 'hora', 'status', 'criadoEm']]);
-  }
-
-  return sheet;
-}
-
-function getAgendamentos_() {
-  const sheet = getAgendaSheet_();
-  const rows = sheet.getDataRange().getValues();
-  const [header, ...dataRows] = rows;
-  if (!header || !header[0] || String(header[0]).trim() !== 'data') return [];
-
-  return dataRows
-    .filter(row => row[0] && row[1])
-    .map(row => ({
-      data: String(row[0]).trim(),
-      hora: String(row[1]).trim(),
-      status: String(row[2] || '').trim(),
-      criadoEm: row[3] || ''
-    }));
 }
 
 function getMembros_() {
